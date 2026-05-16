@@ -1,0 +1,12 @@
+runtime: nodejs18
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  memory: 512MiB
+env:
+  - variable: NEXTAUTH_URL
+    value: https://funtroo.in
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: funtrooo
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: funtrooo.firebasestorage.app

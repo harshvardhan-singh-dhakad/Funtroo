@@ -1,0 +1,59 @@
+# Funtroo — Windsurf Rules
+
+Project: Next.js 14 adult wellness e-commerce | funtroo.in | India | 18+
+
+## Stack
+- Framework: Next.js 14 App Router (TypeScript)
+- Styling: Tailwind CSS with custom f-* color tokens
+- Database: MongoDB + Mongoose (models in /models)
+- Auth: NextAuth v4 (JWT strategy)
+- Payments: Razorpay (server-side only)
+- State: Zustand (cart + browsing history in /lib/store.ts)
+- Icons: lucide-react exclusively
+- Toasts: react-hot-toast (configured in app/layout.tsx)
+
+## Absolute Rules
+1. COLORS: Use f-* Tailwind tokens only. Never raw hex. (f-purple, f-dark, f-light, f-soft, f-border, f-accent, f-muted, f-mid, f-pink, f-green, f-gray, f-grayBg, f-greenBg)
+2. DB: Call `await connectDB()` first in every API route
+3. MODELS: `mongoose.models.X || mongoose.model('X', Schema)` always
+4. CART: `useCart()` from lib/store.ts — never useState for cart
+5. LOYALTY: Import from lib/loyalty.ts — Silver(5%), Gold(10%), Platinum(15%)
+6. FONTS: font-display (Cormorant Garamond) and font-sans (DM Sans) via class names only
+7. BLOG: HTML content rendered via dangerouslySetInnerHTML with prose classes
+8. FORMS: onSubmit + preventDefault — never form action=""
+9. AUTH: 'use client' + useSession() on client; getServerSession(authOptions) on server
+10. SECURITY: Never expose passwords; always select('-password') on Customer queries
+
+## Component Template
+```tsx
+'use client' // if uses hooks/events
+import { ... } from 'lucide-react'
+import toast from 'react-hot-toast'
+
+interface Props { ... }
+
+export default function ComponentName({ ... }: Props) {
+  return (
+    <div className="bg-white border border-f-border rounded-2xl p-5">
+      {/* content */}
+    </div>
+  )
+}
+```
+
+## API Route Template
+```ts
+import { NextRequest, NextResponse } from 'next/server'
+import { connectDB } from '@/lib/mongodb'
+import ModelName from '@/models/ModelName'
+
+export async function GET(req: NextRequest) {
+  try {
+    await connectDB()
+    const items = await ModelName.find().lean()
+    return NextResponse.json({ items })
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 })
+  }
+}
+```

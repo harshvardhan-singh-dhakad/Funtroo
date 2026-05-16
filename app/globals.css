@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --f-dark:   #0E0B14;
+  --f-purple: #2D1B3D;
+  --f-mid:    #7A5E8A;
+  --f-accent: #C27A8E;
+  --f-light:  #F0EBF4;
+  --f-soft:   #F7F3F8;
+  --f-border: #2D2235;
+  --f-muted:  #9B7FA8;
+  --f-gold:   #C9A870;
+  --f-burgundy: #8B2D52;
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  background: #F7F3F8;
+  color: #0E0B14;
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F7F3F8; }
+::-webkit-scrollbar-thumb { background: #9B7FA8; border-radius: 3px; }
+
+/* Card shine effect */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+.card-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  animation: shine 3s infinite;
+}
+@keyframes shine {
+  0% { left: -60%; }
+  100% { left: 130%; }
+}
+
+/* Loyalty card gradients */
+.card-silver   { background: linear-gradient(135deg, #4A4A6A 0%, #8B8BA8 50%, #4A4A6A 100%); }
+.card-gold     { background: linear-gradient(135deg, #6B4A00 0%, #C4820A 50%, #6B4A00 100%); }
+.card-platinum { background: linear-gradient(135deg, #0E0B14 0%, #2D1B3D 50%, #0E0B14 100%); }

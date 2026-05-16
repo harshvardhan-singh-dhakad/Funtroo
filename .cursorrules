@@ -1,0 +1,72 @@
+# Funtroo — Cursor Rules
+# This file configures AI behavior in Cursor IDE for this project.
+
+## Project
+Next.js 14 App Router + TypeScript + Tailwind + MongoDB adult wellness e-commerce.
+Site: funtroo.in | 18+ only | India market
+
+## Color System — ALWAYS use these Tailwind tokens, NEVER hardcode hex
+- bg-f-dark (#1E1B4B) — nav, hero backgrounds
+- bg-f-purple (#6B21A8) — primary buttons, CTAs
+- bg-f-mid (#7C3AED) — button hover
+- bg-f-accent (#A855F7) — icons, highlights
+- bg-f-light (#EDE9FE) — section backgrounds
+- bg-f-soft (#F5F3FF) — page background
+- border-f-border (#DDD6FE) — all borders
+- text-f-muted (#A78BFA) — secondary text
+- text-f-gray (#6B7280) — body text
+- text-f-pink (#BE185D) — discount badges
+- text-f-green (#065F46) — success
+- text-f-dark (#1E1B4B) — headings on light bg
+
+## Typography
+- font-display = "Cormorant Garamond" serif — headings
+- font-sans = "DM Sans" — body
+- DO NOT import fonts in components — already loaded in globals.css
+
+## Always
+- Call `await connectDB()` before any DB operation in API routes
+- Use `mongoose.models.X || mongoose.model('X', Schema)` pattern
+- Use `useCart()` from lib/store.ts — never create local cart state
+- Wrap API routes in try/catch, return `NextResponse.json({ error: e.message }, { status: 500 })`
+- Add `'use client'` to any component with hooks or event handlers
+- Use lucide-react for all icons
+- Use toast from react-hot-toast for notifications
+- Blog HTML content: render with `dangerouslySetInnerHTML={{ __html: blog.content }}`
+- Import loyalty logic from lib/loyalty.ts: getTier, calcCardDiscount, TIERS
+
+## Loyalty Card Tiers
+- Silver: 5% off — ₹0+ lifetime spend — auto on signup
+- Gold: 10% off — ₹10,000+ lifetime spend — auto after order
+- Platinum: 15% off — ₹50,000+ lifetime spend — auto after order
+
+## Never
+- Never hardcode hex colors — use f-* Tailwind tokens
+- Never use <form action=""> — always use onSubmit + preventDefault
+- Never import Google Fonts in component files
+- Never expose passwords — always select('-password') on customer queries
+- Never skip connectDB() in API routes
+- Never create local cart state — always use useCart() Zustand hook
+- Never write raw Mongoose queries in page components — use models
+- Never put admin logic in non-admin routes without role check
+
+## File Locations
+- Pages: app/***/page.tsx
+- API: app/api/***/route.ts
+- Components: components/ComponentName.tsx (PascalCase)
+- Models: models/ModelName.ts (PascalCase)
+- Business logic: lib/*.ts (camelCase)
+- Admin pages: app/admin/***/page.tsx (all 'use client')
+
+## Component Patterns
+- Cards: bg-white border border-f-border rounded-2xl
+- Buttons primary: bg-f-purple text-white rounded-xl hover:bg-f-mid transition
+- Buttons ghost: border border-f-border text-f-gray rounded-xl hover:bg-f-soft
+- Input: border border-f-border rounded-xl px-3 py-2 outline-none focus:border-f-purple
+- Loading: animate-pulse bg-f-border/30 rounded-2xl
+- Section heading: font-display text-3xl text-f-dark
+
+## Env Variables Needed
+MONGODB_URI, NEXTAUTH_SECRET, NEXTAUTH_URL,
+RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID,
+ADMIN_EMAIL, ADMIN_PASSWORD
