@@ -4,9 +4,21 @@ runConfig:
   maxInstances: 10
   memory: 512MiB
 env:
-  - variable: NEXTAUTH_URL
-    value: https://funtroo.in
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyCxaXgTcYCZxzLvE6UKy9f4MkrEdJlL44c
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: funtrooo.firebaseapp.com
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: funtrooo
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
     value: funtrooo.firebasestorage.app
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "567105046529"
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:567105046529:web:4415be0780089782879800
+  - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+    value: G-4SYKKE1NLN
+  - variable: NEXTAUTH_URL
+    value: https://funtrooo.web.app
+  - variable: NEXT_PUBLIC_RAZORPAY_KEY_ID
+    value: rzp_test_SqMXwSf8fj5kXS
