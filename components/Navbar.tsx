@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useCart } from '@/lib/store'
 import { ShoppingBag, Search, User, Menu, X, BookOpen } from 'lucide-react'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import CartDrawer from './CartDrawer'
 
 const SHOP_LINKS = [
@@ -17,7 +17,7 @@ const SHOP_LINKS = [
 
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function Navbar() {
+function NavbarContent() {
   const { data: session } = useSession()
   const { totalItems, toggleCart } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -147,3 +147,23 @@ export default function Navbar() {
     </>
   )
 }
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={
+      <header className="sticky top-0 z-50 bg-f-dark shadow-xl border-b border-f-purple/10">
+        <div className="bg-f-purple text-white text-center text-[10px] md:text-[11px] py-1.5 tracking-[0.15em] font-medium uppercase">
+          🚚 Free shipping above ₹999 &nbsp;·&nbsp; 📦 Plain brown box &nbsp;·&nbsp; 💳 COD available pan India
+        </div>
+        <div className="flex items-center justify-between px-4 md:px-12 h-16">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="font-display text-2xl md:text-3xl text-f-light tracking-[0.2em]">FUN<span className="text-f-accent">troo</span></span>
+          </div>
+        </div>
+      </header>
+    }>
+      <NavbarContent />
+    </Suspense>
+  )
+}
+
