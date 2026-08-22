@@ -35,7 +35,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-her',
     price: 1499,
     originalPrice: 2999,
-    images: ['/products/for-her-rose-vibe.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-her-rose-vibe.jpg?alt=media'],
     description: 'Designed in soft magenta silicone with luxurious rose gold accents, the Rose Bloom Vibe Pro features 10 air-wave suction intensities and 7 vibration patterns. Engineered with whisper-quiet 38dB motor technology and 100% IPX7 waterproof rating for seamless bath or shower enjoyment.',
     features: [
       'Medical-grade velvety soft silicone body',
@@ -63,7 +63,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-her',
     price: 1899,
     originalPrice: 3499,
-    images: ['/products/for-her-wand-massager.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-her-wand-massager.jpg?alt=media'],
     description: 'Crafted in elegant lavender purple with rose gold accents, this curved wand massager targets internal G-spot zones and external pressure points with deep, thumping vibrations. Includes 12 pulse modes and a flexible neck for ergonomic comfort.',
     features: [
       'Flexible ergonomic neck angled for G-spot precision',
@@ -91,7 +91,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-her',
     price: 2299,
     originalPrice: 4199,
-    images: ['/products/for-her-dual-stimulator.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-her-dual-stimulator.jpg?alt=media'],
     description: 'Finished in soft blush pink with metallic gold embellishments, the Velvet Touch Dual Stimulator provides simultaneous internal shaft stimulation and external flexible rabbit ears. Dual independent motors allow custom vibration combinations.',
     features: [
       'Dual independent motors with 10 vibration speeds',
@@ -123,7 +123,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-him',
     price: 999,
     originalPrice: 1899,
-    images: ['/products/for-him-stamina-ring.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-him-stamina-ring.jpg?alt=media'],
     description: 'Constructed from ultra-stretchable matte black silicone with electric purple accents, the Apex Stamina Ring restricts blood flow for firmer endurance while delivering 9 powerful vibration modes directly to both partners.',
     features: [
       'Ultra-stretchable medical silicone fits all sizes comfortably',
@@ -151,7 +151,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-him',
     price: 1799,
     originalPrice: 3199,
-    images: ['/products/for-him-textured-stroker.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-him-textured-stroker.jpg?alt=media'],
     description: 'Designed in sleek charcoal black with LED status indicator lighting, this ergonomic stroker features a inner sleeve lined with intricate ribs and nubs. Equipped with a suction adjustment valve to simulate realistic sensations.',
     features: [
       'Internal 3D ribbed & beaded pleasure texture',
@@ -179,7 +179,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'for-him',
     price: 2499,
     originalPrice: 4499,
-    images: ['/products/for-him-prostate-massager.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Ffor-him-prostate-massager.jpg?alt=media'],
     description: 'Crafted in deep midnight purple with an anatomically curved tip, the Midnight Contour targets P-spot stimulation while its outer node delivers rhythmic vibrations to the perineum. Fully waterproof with 10 vibration frequencies.',
     features: [
       'Anatomical P-spot curve for precise contact',
@@ -211,7 +211,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'couples',
     price: 2699,
     originalPrice: 4999,
-    images: ['/products/couples-wearable-vibe.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Fcouples-wearable-vibe.jpg?alt=media'],
     description: 'Engineered in royal purple and pearl white, this flexible C-shaped device fits comfortably during intercourse. Features a wireless remote control (up to 12 meters range) allowing partners to control 10 vibration modes effortlessly.',
     features: [
       'Flexible C-shape fits seamlessly during lovemaking',
@@ -239,7 +239,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'couples',
     price: 3499,
     originalPrice: 5999,
-    images: ['/products/couples-intimacy-kit.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Fcouples-intimacy-kit.jpg?alt=media'],
     description: 'Housed in a regal purple & gold presentation box, this intimacy kit includes a remote couple vibrator, 100ml warming massage oil, a silk blindfold, soft satin wrist restraints, and romantic intimacy dice games.',
     features: [
       'Includes Remote Couple Vibe + Massage Oil + Blindfold + Restraints',
@@ -267,7 +267,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'couples',
     price: 699,
     originalPrice: 1299,
-    images: ['/products/couples-ring-set.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Fcouples-ring-set.jpg?alt=media'],
     description: 'A set of 3 stretchy, velvet-soft silicone pleasure rings in blush pink, midnight purple, and charcoal black. Designed in various textures and thicknesses for custom comfort, enhanced stamina, and heightened contact.',
     features: [
       'Set of 3 progressive stretch silicone rings',
@@ -299,7 +299,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lubricants',
     price: 499,
     originalPrice: 799,
-    images: ['/products/lube-water-based.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flube-water-based.jpg?alt=media'],
     description: 'Formulated with pure deionized water and natural botanical extracts, Silk Glide provides long-lasting lubrication that feels natural and smooth. Condom-compatible, toy-safe, pH balanced, and easily rinses clean.',
     features: [
       '100% Natural water-based formula',
@@ -327,7 +327,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lubricants',
     price: 599,
     originalPrice: 999,
-    images: ['/products/lube-warming-oil.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flube-warming-oil.jpg?alt=media'],
     description: 'Housed in an amber glass dropper bottle with gold foil accents, this massage oil warms gently upon skin contact and light blowing. Rich in vitamin E and natural essential oils for silk-soft foreplay massages.',
     features: [
       'Gently warms upon skin contact & light breath',
@@ -355,7 +355,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lubricants',
     price: 549,
     originalPrice: 899,
-    images: ['/products/lube-organic-aloe.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flube-organic-aloe.jpg?alt=media'],
     description: 'Crafted from cold-pressed organic aloe vera leaf juice, this soothing gel hydrates sensitive intimate skin while providing frictionless glide. Free from synthetic parabens, petrochemicals, or artificial dyes.',
     features: [
       '99% Certified organic cold-pressed aloe vera',
@@ -387,7 +387,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lingerie',
     price: 1199,
     originalPrice: 2199,
-    images: ['/products/lingerie-black-lace-bodysuit.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flingerie-black-lace-bodysuit.jpg?alt=media'],
     description: 'Crafted from sheer floral eyelash lace and stretch mesh, this midnight black bodysuit features scalloped plunge trimming, adjustable criss-cross back straps, and snap-crotch closure for effortless elegance.',
     features: [
       'Ultra-soft stretch floral eyelash lace',
@@ -415,7 +415,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lingerie',
     price: 1499,
     originalPrice: 2799,
-    images: ['/products/lingerie-satin-kimono-robe.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flingerie-satin-kimono-robe.jpg?alt=media'],
     description: 'Made from heavyweight silk-satin fabric in rich royal purple, this mid-length kimono robe features wide 3/4 sleeves trimmed with black eyelash lace, a matching waist tie belt, and internal tie closures.',
     features: [
       'Heavyweight silk-finish satin with premium shine',
@@ -443,7 +443,7 @@ export const PRODUCTS_DATA: ProductData[] = [
     category: 'lingerie',
     price: 1299,
     originalPrice: 2399,
-    images: ['/products/lingerie-crimson-silk-chemise.jpg'],
+    images: ['https://firebasestorage.googleapis.com/v0/b/funtrooo.firebasestorage.app/o/products%2Flingerie-crimson-silk-chemise.jpg?alt=media'],
     description: 'Designed in rich crimson red silk-satin with black lace bust paneling, this nightgown chemise hugs natural curves gracefully. Comes complete with a matching satin G-string panty.',
     features: [
       'Rich crimson red silk-satin with lace trim',

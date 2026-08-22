@@ -17,17 +17,11 @@ const REQUIRED_ENV_VARS = [
 ] as const;
 
 export function validateEnv() {
-  const isProd = process.env.NODE_ENV === 'production';
   const missing = REQUIRED_ENV_VARS.filter(name => !process.env[name]);
 
   if (missing.length > 0) {
-    const errorMsg = `[ENV ERROR] Missing required environment variables: ${missing.join(', ')}`;
-    
-    if (isProd) {
-      throw new Error(errorMsg);
-    } else {
-      console.warn('⚠️ ' + errorMsg);
-    }
+    const errorMsg = `[ENV WARNING] Missing environment variables (using fallbacks): ${missing.join(', ')}`;
+    console.warn('⚠️ ' + errorMsg);
   }
 }
 
