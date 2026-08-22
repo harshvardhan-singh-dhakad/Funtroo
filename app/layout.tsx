@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   title: 'Funtroo — Wellness, Intimately',
   description: 'Premium adult wellness products. Discreet delivery across India. Plain packaging. COD available.',
   robots: 'noindex, nofollow',
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon0.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png',
-  },
   manifest: '/manifest.json',
 }
 

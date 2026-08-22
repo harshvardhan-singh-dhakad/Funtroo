@@ -1,5 +1,6 @@
-﻿'use client'
+'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { useCart } from '@/lib/store'
 import { 
@@ -70,7 +71,7 @@ function NavbarContent() {
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <img src="/icon0.svg" alt="Funtroo" className="w-7 h-7 md:w-8 md:h-8 object-contain group-hover:scale-110 transition-transform duration-300" />
+            <Image src="/icon0.svg" alt="Funtroo" width={32} height={32} className="w-7 h-7 md:w-8 md:h-8 object-contain group-hover:scale-110 transition-transform duration-300" />
             <span className="font-display text-2xl md:text-3xl text-f-light tracking-[0.2em]">
               FUN<span className="text-f-accent">troo</span>
             </span>
