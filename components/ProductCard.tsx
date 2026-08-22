@@ -52,7 +52,7 @@ export default function ProductCard({ product }: Props) {
         {product.images && product.images.length > 0 && product.images[0] ? (
           <img 
             src={product.images[0]} 
-            alt={product.name} 
+            alt={`${product.name} - Premium Adult Wellness Product`} 
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
           />
         ) : (
@@ -76,15 +76,15 @@ export default function ProductCard({ product }: Props) {
 
       {/* Info */}
       <div className="p-4">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}`} aria-label={`View details for ${product.name}`}>
           <p className="text-sm font-medium text-f-dark leading-snug hover:text-f-purple transition line-clamp-2 mb-1">{product.name}</p>
         </Link>
 
         {/* Rating */}
         {product.reviewCount > 0 && (
           <div className="flex items-center gap-1 mb-2">
-            <Star size={11} className="fill-f-accent text-f-accent" />
-            <span className="text-[11px] text-f-accent font-medium">{product.rating.toFixed(1)}</span>
+            <Star size={11} className="fill-f-pink text-f-pink" />
+            <span className="text-[11px] text-f-pink font-bold">{product.rating.toFixed(1)}</span>
             <span className="text-[11px] text-f-gray">({product.reviewCount})</span>
           </div>
         )}
@@ -93,20 +93,20 @@ export default function ProductCard({ product }: Props) {
         <div className="flex items-baseline gap-1.5 mb-1">
           <span className="text-base font-semibold text-f-dark">₹{(cardPrice || product.price).toLocaleString()}</span>
           {product.originalPrice > product.price && (
-            <span className="text-xs text-f-muted line-through">₹{product.originalPrice.toLocaleString()}</span>
+            <span className="text-xs text-f-gray line-through">₹{product.originalPrice.toLocaleString()}</span>
           )}
         </div>
 
         {/* Card price indicator */}
         {tier && cardPrice < product.price && (
           <div className="flex items-center gap-1 mb-3">
-            <Zap size={10} className="text-f-accent fill-f-accent" />
-            <span className="text-[10px] text-f-accent">{discPct}% {tier} card discount applied</span>
+            <Zap size={10} className="text-f-pink fill-f-pink" />
+            <span className="text-[10px] text-f-pink font-semibold">{discPct}% {tier} card discount applied</span>
           </div>
         )}
 
         {/* Add to cart */}
-        <button onClick={handleAdd} disabled={product.stock === 0}
+        <button onClick={handleAdd} disabled={product.stock === 0} aria-label={`Add ${product.name} to Cart`}
           className="w-full flex items-center justify-center gap-2 py-2.5 bg-f-purple text-white text-xs font-medium rounded-xl hover:bg-f-mid transition disabled:opacity-40 disabled:cursor-not-allowed">
           <ShoppingBag size={13} />
           {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}

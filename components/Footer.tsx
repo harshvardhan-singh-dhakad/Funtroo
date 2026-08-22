@@ -1,4 +1,4 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import { Shield, Package, Truck, RefreshCw, Heart, Lock } from 'lucide-react'
 
 export default function Footer() {
@@ -92,15 +92,15 @@ export default function Footer() {
           <p className="text-xs font-bold text-f-light tracking-widest uppercase mb-4">Legal &amp; Support</p>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/privacy-policy" className="hover:text-f-light transition">Privacy Policy</Link>
+              <Link href="/privacy-policy" aria-label="Read our Privacy Policy" className="hover:text-f-light transition">Privacy Policy</Link>
             </li>
             <li>
-              <Link href="/terms" className="hover:text-f-light transition">Terms &amp; Conditions</Link>
+              <Link href="/terms" aria-label="Read our Terms and Conditions" className="hover:text-f-light transition">Terms &amp; Conditions</Link>
             </li>
-            <li className="pt-2 text-[11px] text-f-muted">
+            <li className="pt-2 text-[11px] text-[#a38db1]">
               📧 Email: <a href="mailto:help@funtroo.in" className="text-f-light hover:underline">help@funtroo.in</a>
             </li>
-            <li className="text-[11px] text-f-muted">
+            <li className="text-[11px] text-[#a38db1]">
               🕐 Mon–Sat: 10:00 AM – 7:00 PM
             </li>
           </ul>
@@ -109,7 +109,7 @@ export default function Footer() {
       </div>
 
       {/* Copyright Bar */}
-      <div className="border-t border-f-purple/20 px-4 py-4 text-center text-[11px] text-f-muted/60 bg-[#0B0811]">
+      <div className="border-t border-f-purple/20 px-4 py-4 text-center text-[11px] text-[#a38db1] bg-[#0B0811]">
         &copy; {new Date().getFullYear()} Funtroo Wellness Pvt Ltd. All rights reserved. Strictly 18+ adult platform.
       </div>
     </footer>

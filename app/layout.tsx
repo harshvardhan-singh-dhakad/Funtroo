@@ -9,10 +9,34 @@ const cormorant = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '600'
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body' })
 
 export const metadata: Metadata = {
-  title: 'Funtroo — Wellness, Intimately',
-  description: 'Premium adult wellness products. Discreet delivery across India. Plain packaging. COD available.',
-  robots: 'noindex, nofollow',
+  title: {
+    default: 'Funtroo | Premium Adult Wellness & Intimacy Store in India',
+    template: '%s | Funtroo'
+  },
+  description: 'Funtroo is India\'s most trusted premium adult wellness brand. Buy adult toys, massagers, lubricants & lingerie online. 100% private, discreet plain box delivery with COD.',
+  keywords: ['Funtroo', 'adult wellness India', 'buy vibrators online India', 'couple toys', 'intimacy products', 'Funtroo store', 'premium adult toys'],
+  robots: 'index, follow',
   manifest: '/manifest.json',
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: 'https://funtrooo.web.app',
+    siteName: 'Funtroo',
+    title: 'Funtroo | Premium Adult Wellness Store',
+    description: '100% discreet delivery of premium adult wellness products across India.',
+    images: [{ url: '/icon0.svg', width: 512, height: 512, alt: 'Funtroo Logo' }]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Funtroo | Premium Adult Wellness Store',
+    description: '100% discreet delivery of premium adult wellness products across India.',
+  }
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
