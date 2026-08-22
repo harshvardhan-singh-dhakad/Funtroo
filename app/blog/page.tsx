@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   title:       'Wellness Blog — Funtroo',
   description: 'Tips, guides, and expert advice on adult wellness, intimacy, and self-care. Read the Funtroo blog.',
   robots:      'index, follow',
+  alternates: {
+    canonical: '/blog'
+  },
+  openGraph: {
+    title: 'Wellness Blog — Funtroo',
+    description: 'Tips, guides, and expert advice on adult wellness, intimacy, and self-care.',
+    url: 'https://funtroo.in/blog',
+  }
 }
 
 async function getBlogs() {

@@ -62,7 +62,8 @@ export default function ProductPage() {
             {p.images && p.images.length > 0 && p.images[0] ? (
               <img 
                 src={p.images[0]} 
-                alt={p.name} 
+                alt={`${p.name} - Official Funtroo Product`} 
+                fetchPriority="high"
                 className="w-full h-full object-cover rounded-2xl"
               />
             ) : (
@@ -190,9 +191,10 @@ export default function ProductPage() {
               "image": p.images || [],
               "description": p.description,
               "sku": p.id,
+              "hasAdultConsideration": "https://schema.org/SexualContentConsideration",
               "offers": {
                 "@type": "Offer",
-                "url": `https://funtrooo.web.app/product/${p.slug}`,
+                "url": `https://funtroo.in/product/${p.slug}`,
                 "priceCurrency": "INR",
                 "price": cardPrice(p.price),
                 "priceValidUntil": "2027-12-31",
@@ -204,6 +206,23 @@ export default function ProductPage() {
                 "ratingValue": p.rating,
                 "reviewCount": p.reviewCount
               } : undefined
+            })
+          }}
+        />
+
+        {/* Breadcrumb JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://funtroo.in" },
+                { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://funtroo.in/shop" },
+                { "@type": "ListItem", "position": 3, "name": p.category.replace('-', ' '), "item": `https://funtroo.in/shop?category=${p.category}` },
+                { "@type": "ListItem", "position": 4, "name": p.name, "item": `https://funtroo.in/product/${p.slug}` }
+              ]
             })
           }}
         />

@@ -9,6 +9,13 @@ import { IProduct } from '@/models/Product'
 import { PRODUCTS_DATA } from '@/lib/products-data'
 import { PAGE_FAQS } from '@/lib/faqs-data'
 import FAQSection from '@/components/FAQSection'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/'
+  }
+}
 
 const CATEGORIES = [
   { label: 'For Her',    slug: 'for-her',    emoji: '💜', count: '48+' },

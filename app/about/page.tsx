@@ -13,7 +13,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Funtroo | Premium Adult Wellness',
     description: 'Learn about Funtroo, India\'s most trusted platform for premium adult wellness. We break taboos with 100% discreet packaging.',
-    url: 'https://funtrooo.web.app/about',
+    url: 'https://funtroo.in/about',
+  },
+  alternates: {
+    canonical: '/about'
   }
 }
 

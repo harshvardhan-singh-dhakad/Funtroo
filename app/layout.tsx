@@ -9,6 +9,7 @@ const cormorant = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '600'
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://funtroo.in'),
   title: {
     default: 'Funtroo | Premium Adult Wellness & Intimacy Store in India',
     template: '%s | Funtroo'
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://funtrooo.web.app',
+    url: 'https://funtroo.in',
     siteName: 'Funtroo',
     title: 'Funtroo | Premium Adult Wellness Store',
     description: '100% discreet delivery of premium adult wellness products across India.',
@@ -40,9 +41,33 @@ export const viewport = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Global Entity Schema
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Funtroo",
+    "url": "https://funtroo.in",
+    "logo": "https://funtroo.in/icon.svg",
+    "sameAs": []
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Funtroo",
+    "url": "https://funtroo.in",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://funtroo.in/shop?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <Providers>
           {children}
           <Toaster position="top-right" toastOptions={{

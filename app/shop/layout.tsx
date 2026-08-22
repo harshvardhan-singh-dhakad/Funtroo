@@ -7,7 +7,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Shop Premium Adult Wellness | Funtroo',
     description: 'Explore Funtroo\'s curated collection of body-safe vibrators, massagers, and couples toys. 100% discreet shipping.',
-    url: 'https://funtrooo.web.app/shop',
+    url: 'https://funtroo.in/shop',
+  },
+  alternates: {
+    canonical: '/shop'
   }
 }
 

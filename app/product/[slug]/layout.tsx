@@ -43,6 +43,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: `${product.name} - Funtroo`,
       description: `${product.description.slice(0, 150)}...`,
       images: product.images ? [{ url: product.images[0] }] : [],
+      url: `https://funtroo.in/product/${product.slug}`,
+    },
+    alternates: {
+      canonical: `/product/${product.slug}`
     }
   }
 }
