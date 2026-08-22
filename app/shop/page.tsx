@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/Navbar'
@@ -47,13 +47,58 @@ function ShopContent() {
 
   useEffect(() => {
     setLoading(true)
-    const params = new URLSearchParams({ page: String(page), limit: '12', sort })
-    if (category) params.set('category', category)
-    if (q) params.set('q', q)
-    fetch(`/api/products?${params}`)
-      .then(r => r.json())
-      .then(d => { setProducts(d.products || []); setTotal(d.total || 0); setLoading(false) })
-      .catch(() => { setProducts([]); setLoading(false) })
+    
+    async function loadProducts() {
+      try {
+        let dbProducts: any[] = []
+        try {
+          const { collection, getDocs, query, where, limit, orderBy } = await import('firebase/firestore')
+          const { db } = await import('@/lib/firebase')
+          
+          const constraints: any[] = [where('isActive', '==', true)]
+          if (category) constraints.push(where('category', '==', category))
+          
+          if (sort === 'price_asc') constraints.push(orderBy('price', 'asc'))
+          else if (sort === 'price_desc') constraints.push(orderBy('price', 'desc'))
+          else if (sort === 'popular') constraints.push(orderBy('soldCount', 'desc'))
+          else if (sort === 'rating') constraints.push(orderBy('rating', 'desc'))
+          
+          constraints.push(limit(100)) // Fetch all matching for simple client side search
+          
+          const qRef = query(collection(db, 'products'), ...constraints)
+          const snap = await getDocs(qRef)
+          dbProducts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        } catch (err) {
+          console.warn('Firestore fetch failed, falling back to local data:', err)
+        }
+        
+        let filtered = dbProducts.length > 0 ? dbProducts : (await import('@/lib/products-data')).PRODUCTS_DATA
+        
+        if (dbProducts.length === 0) {
+          if (category) filtered = filtered.filter(p => p.category === category)
+          if (sort === 'price_asc') filtered.sort((a, b) => a.price - b.price)
+          else if (sort === 'price_desc') filtered.sort((a, b) => b.price - a.price)
+          else if (sort === 'popular') filtered.sort((a, b) => (b.soldCount||0) - (a.soldCount||0))
+          else if (sort === 'rating') filtered.sort((a, b) => (b.rating||0) - (a.rating||0))
+        }
+
+        if (q) {
+          filtered = filtered.filter(p => 
+            p.name.toLowerCase().includes(q.toLowerCase()) || 
+            (p.description && p.description.toLowerCase().includes(q.toLowerCase()))
+          )
+        }
+        
+        setTotal(filtered.length)
+        setProducts(filtered.slice((page - 1) * 12, page * 12))
+        setLoading(false)
+      } catch (err) {
+        setProducts([])
+        setLoading(false)
+      }
+    }
+    
+    loadProducts()
   }, [category, sort, q, page])
 
   const currentCategoryLabel = CATEGORIES.find(c => c.value === category)?.label.replace(/^[^\w\s]+\s*/, '') || 'All Products'
