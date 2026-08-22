@@ -7,6 +7,8 @@ import ProductCard from '@/components/ProductCard'
 import { getCollection, where, limit } from '@/lib/firestore'
 import { IProduct } from '@/models/Product'
 import { PRODUCTS_DATA } from '@/lib/products-data'
+import { PAGE_FAQS } from '@/lib/faqs-data'
+import FAQSection from '@/components/FAQSection'
 
 const CATEGORIES = [
   { label: 'For Her',    slug: 'for-her',    emoji: '💜', count: '48+' },
@@ -165,6 +167,11 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+
+        {/* AI Optimized FAQ Section */}
+        <section className="bg-white border-t border-f-border px-4 py-8">
+          <FAQSection faqs={PAGE_FAQS.home} title="Frequently Asked Questions" />
+        </section>
 
       </main>
       <Footer />

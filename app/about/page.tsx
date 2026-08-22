@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { Shield, Package, Heart, Sparkles, Award, Lock, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { PAGE_FAQS } from '@/lib/faqs-data'
+import FAQSection from '@/components/FAQSection'
 
 export const metadata: Metadata = {
   title: 'About Funtroo | India\'s Premium Adult Wellness & Intimacy Brand',
@@ -172,6 +174,11 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* AI Optimized FAQ Section */}
+        <section className="bg-white border-t border-f-border px-4 py-8">
+          <FAQSection faqs={PAGE_FAQS.about} title="Frequently Asked Questions" />
         </section>
       </main>
 

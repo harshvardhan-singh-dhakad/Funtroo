@@ -10,6 +10,8 @@ import { useSession } from 'next-auth/react'
 import { TIERS } from '@/lib/loyalty'
 import { ShoppingBag, Shield, Package, Truck, Zap, Star, Check, Heart } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { PRODUCT_FAQS } from '@/lib/faqs-data'
+import FAQSection from '@/components/FAQSection'
 
 export default function ProductPage() {
   const { slug }   = useParams<{ slug: string }>()
@@ -167,8 +169,44 @@ export default function ProductPage() {
           </div>
         </div>
 
+        {/* AI Optimized FAQ Section for AEO & GEO */}
+        {PRODUCT_FAQS[p.slug] && (
+          <div className="mb-16 bg-white border border-f-border rounded-2xl px-4 py-8">
+            <FAQSection faqs={PRODUCT_FAQS[p.slug]} title={`FAQs about ${p.name}`} />
+          </div>
+        )}
+
         {/* Suggestions */}
         <ProductSuggestions category={p.category} exclude={p.slug} tags={p.tags || []} />
+
+        {/* Product JSON-LD Schema for Google Rich Snippets */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "Product",
+              "name": p.name,
+              "image": p.images || [],
+              "description": p.description,
+              "sku": p.id,
+              "offers": {
+                "@type": "Offer",
+                "url": `https://funtrooo.web.app/product/${p.slug}`,
+                "priceCurrency": "INR",
+                "price": cardPrice(p.price),
+                "priceValidUntil": "2027-12-31",
+                "itemCondition": "https://schema.org/NewCondition",
+                "availability": p.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              },
+              "aggregateRating": p.reviewCount > 0 ? {
+                "@type": "AggregateRating",
+                "ratingValue": p.rating,
+                "reviewCount": p.reviewCount
+              } : undefined
+            })
+          }}
+        />
 
       </main>
       <Footer />

@@ -5,6 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import { SlidersHorizontal, Search, X, ArrowUpDown } from 'lucide-react'
+import { PAGE_FAQS } from '@/lib/faqs-data'
+import FAQSection from '@/components/FAQSection'
 
 const CATEGORIES = [
   { label: '✨ View All',  value: '' },
@@ -267,6 +269,11 @@ function ShopContent() {
             )}
           </div>
         </div>
+
+        {/* AI Optimized FAQ Section */}
+        <section className="mt-12 bg-white border border-f-border rounded-2xl px-4 py-8">
+          <FAQSection faqs={PAGE_FAQS.shop} title="Shop Frequently Asked Questions" />
+        </section>
       </main>
 
       <Footer />
