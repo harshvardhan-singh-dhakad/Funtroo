@@ -3,6 +3,8 @@ import { getCollection, createDocument, where, limit } from '@/lib/firestore'
 import { sendOtpEmail } from '@/lib/mail'
 import { ICustomer } from '@/models/Customer'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     const { email, name, type = 'register' } = await req.json()
@@ -31,9 +33,8 @@ export async function POST(req: NextRequest) {
 
     // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString()
 
-    // Save OTP to Firestore with deterministic key
     const docId = `otp_${normalizedEmail.replace(/[^a-zA-Z0-9]/g, '_')}`
     await createDocument('otps', {
       email: normalizedEmail,
@@ -43,7 +44,6 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString()
     }, docId)
 
-    // Send email
     await sendOtpEmail({ email: normalizedEmail, otp, name })
 
     return NextResponse.json({ 
