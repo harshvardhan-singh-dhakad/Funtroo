@@ -1,4 +1,4 @@
-﻿// Run: node scripts/seed.js
+// Run: node scripts/seed.js
 // Seeds 15 demo products and admin user into Firestore using Firebase Admin SDK
 
 const path = require('path');
@@ -6,11 +6,22 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env.local') });
 const admin = require('firebase-admin');
 const bcrypt = require('bcryptjs');
 
+const fs = require('fs');
+
 // Initialize Admin SDK
 if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'funtroo-demo',
-  });
+  const saPath = path.resolve(__dirname, '../firebase-service-account.json');
+  if (fs.existsSync(saPath)) {
+    const sa = JSON.parse(fs.readFileSync(saPath, 'utf8'));
+    admin.initializeApp({
+      credential: admin.credential.cert(sa),
+      projectId: sa.project_id || 'funtrooo',
+    });
+  } else {
+    admin.initializeApp({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'funtrooo',
+    });
+  }
 }
 
 const db = admin.firestore();

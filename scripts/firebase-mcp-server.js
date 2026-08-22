@@ -14,10 +14,20 @@ let admin;
 try {
   admin = require('firebase-admin');
   if (!admin.apps.length) {
-    admin.initializeApp({
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'funtrooo',
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'funtrooo.firebasestorage.app'
-    });
+    const saPath = path.join(__dirname, '../firebase-service-account.json');
+    if (fs.existsSync(saPath)) {
+      const sa = JSON.parse(fs.readFileSync(saPath, 'utf8'));
+      admin.initializeApp({
+        credential: admin.credential.cert(sa),
+        projectId: sa.project_id || 'funtrooo',
+        storageBucket: `${sa.project_id || 'funtrooo'}.firebasestorage.app`
+      });
+    } else {
+      admin.initializeApp({
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'funtrooo',
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'funtrooo.firebasestorage.app'
+      });
+    }
   }
 } catch (err) {
   console.error('[Firebase MCP] Admin SDK notice:', err.message);
