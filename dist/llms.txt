@@ -1,0 +1,46 @@
+﻿# Funtroo
+
+> India's premier adult wellness and intimacy e-commerce platform. Funtroo provides 100% body-safe, certified wellness essentials with complete privacy, plain unmarked brown box delivery across India, discreet billing descriptors, and an automated customer loyalty rewards system.
+
+## Overview
+- **Domain:** [funtroo.in](https://funtroo.in)
+- **Target Audience:** Adults aged 18+ in India
+- **Mission:** Democratizing adult sexual wellness, personal intimacy, and body-safe pleasure products with zero stigma, absolute discretion, and high product quality standards.
+- **Payment Methods:** Cash on Delivery (COD), UPI, Credit/Debit Cards, Net Banking (via Razorpay).
+- **Packaging:** 100% Plain, unmarked brown cardboard boxes. Zero branding or product names on the outside.
+- **Billing Descriptor:** Generic commercial descriptor (`FT Commerce`) on bank and card statements.
+
+## Core Navigation
+- [Homepage](https://funtroo.in/): Brand introduction, featured bestsellers, trust badges, and loyalty card preview.
+- [Shop All](https://funtroo.in/shop): Complete catalog of adult wellness products with real-time sorting and filtering.
+- [About Us](https://funtroo.in/about): Brand story, mission, core safety pillars, and quality standards.
+- [Blogs](https://funtroo.in/blog): Educational articles, relationship wellness advice, product guides, and intimacy tips.
+- [Account](https://funtroo.in/account): Customer profile, order history tracking, and active loyalty card status.
+- [Privacy Policy](https://funtroo.in/privacy-policy): Discreet billing details, packaging guarantees, and data security policies.
+- [Terms & Conditions](https://funtroo.in/terms): 18+ age verification, ordering terms, hygiene replacement guidelines.
+
+## Product Categories & Wellness Range
+- [For Her](https://funtroo.in/shop?category=for-her): Vibrators, clitoral stimulators, pelvic floor trainers, massage wands, and female wellness essentials.
+- [For Him](https://funtroo.in/shop?category=for-him): Vibrating rings, stamina enhancers, male masturbators, and wellness accessories.
+- [Couples](https://funtroo.in/shop?category=couples): Remote-controlled toys, shared pleasure rings, couples games, and romantic intimacy kits.
+- [Lubricants](https://funtroo.in/shop?category=lubricants): Dermatologically tested, body-safe water-based, silicone, and organic personal lubricants.
+- [Lingerie](https://funtroo.in/shop?category=lingerie): Sensual sleepwear, robes, lace bodysuits, and luxury intimate apparel.
+
+## Loyalty Card Rewards Program
+Funtroo features an automatic, spend-based loyalty tier program that auto-applies stackable discounts at checkout:
+- **Silver Card (5% OFF):** Automatically assigned upon free user registration (₹0 spend).
+- **Gold Card (10% OFF):** Auto-unlocked after ₹10,000 lifetime spend.
+- **Platinum Card (15% OFF):** Auto-unlocked after ₹50,000 lifetime spend.
+- *Stackable:* Loyalty discounts stack seamlessly on top of promotional coupon codes.
+
+## Key Policies & Trust Pillars
+- **Discreet Packaging Guarantee:** All parcels are sealed in plain brown boxes with no external indication of contents. Couriers are unaware of product details.
+- **Privacy Billing:** Bank statements display `FT Commerce` rather than adult-related terms.
+- **18+ Strict Compliance:** Funtroo is strictly for individuals of legal adult age (18+ in India).
+- **Body-Safe Materials:** All devices are made of non-porous medical-grade silicone, phthalate-free ABS, and dermatologically tested ingredients.
+- **Hygiene & Damaged Item Replacement:** For hygiene reasons, intimate products cannot be returned once opened. Damaged or defective items reported within 48 hours are replaced immediately free of charge.
+
+## Full Documentation for AI Agents
+For the complete in-depth guide, brand guidelines, and developer schema:
+- [Full LLM Knowledge Base](https://funtroo.in/llms-full.txt)
+- [XML Sitemap](https://funtroo.in/sitemap.xml)
