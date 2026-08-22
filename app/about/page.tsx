@@ -1,7 +1,19 @@
-﻿import Link from 'next/link'
+import { Metadata } from 'next'
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { Shield, Package, Heart, Sparkles, Award, Lock, ArrowRight, CheckCircle2 } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'About Funtroo | India\'s Premium Adult Wellness & Intimacy Brand',
+  description: 'Learn about Funtroo, India\'s most trusted platform for premium adult wellness. We break taboos with 100% discreet packaging, body-safe products, and secure billing.',
+  keywords: ['About Funtroo', 'Funtroo mission', 'adult wellness brand India', 'safe adult toys', 'discreet delivery adult toys'],
+  openGraph: {
+    title: 'About Funtroo | Premium Adult Wellness',
+    description: 'Learn about Funtroo, India\'s most trusted platform for premium adult wellness. We break taboos with 100% discreet packaging.',
+    url: 'https://funtrooo.web.app/about',
+  }
+}
 
 export default function AboutPage() {
   return (
@@ -75,21 +87,21 @@ export default function AboutPage() {
             <div>
               <span className="text-xs uppercase tracking-widest text-f-accent font-bold mb-2 block">Our Vision</span>
               <h2 className="font-display text-3xl md:text-4xl text-f-dark mb-4 leading-tight">
-                Breaking Taboos, <br />Building Trust.
+                Breaking Taboos, <br />Building Trust in India.
               </h2>
               <p className="text-sm text-f-gray leading-relaxed mb-4">
-                For too long, adult intimacy and sexual health in India have been shrouded in taboo, unreliable counterfeit products, and awkward purchasing experiences.
+                For too long, adult intimacy and sexual health in India have been shrouded in taboo, unreliable counterfeit products, and awkward purchasing experiences. We realized that Indians deserve a safe, dignified, and premium platform to explore their wellness journey without judgment.
               </p>
               <p className="text-sm text-f-gray leading-relaxed mb-6">
-                Funtroo was created to change the narrative. We offer an authentic, curated catalog of modern sexual wellness products that cater to solo explorers, men, women, and couples looking to enrich their intimacy.
+                Funtroo was created to change this narrative completely. We offer an authentic, carefully curated catalog of modern sexual wellness products that cater to solo explorers, men, women, and couples looking to enrich their intimacy. Our platform is built on the foundation of absolute privacy, ensuring that your wellness journey remains yours alone.
               </p>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2.5 mb-8">
                 {[
-                  'Pan-India fast shipping with Cash on Delivery (COD)',
+                  'Pan-India fast shipping with Cash on Delivery (COD) options',
                   'Automated Loyalty Program with lifetime stackable savings',
                   'Dedicated discrete customer support on WhatsApp and Email',
-                  'Strict 18+ verification and ethical sourcing'
+                  'Strict 18+ verification and ethical sourcing standards'
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2.5 text-xs md:text-sm text-f-dark font-medium">
                     <CheckCircle2 size={16} className="text-f-purple shrink-0" />
@@ -120,6 +132,43 @@ export default function AboutPage() {
                     Join Free
                   </Link>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SEO Deep Content Expansion */}
+        <section className="bg-f-soft py-16 px-4">
+          <div className="max-w-4xl mx-auto space-y-12">
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl text-f-dark mb-4">Why Funtroo is the Best Adult Wellness Store in India</h2>
+              <p className="text-sm text-f-gray leading-relaxed mb-4">
+                When it comes to buying adult wellness products, vibrators, massagers, or couple intimacy toys online in India, trust and quality are paramount. The market is flooded with low-grade, non-certified plastics that can harm your body. Funtroo strictly curates only medical-grade silicone and body-safe materials that are dermatologically tested and approved for sensitive skin.
+              </p>
+              <p className="text-sm text-f-gray leading-relaxed">
+                Whether you are exploring personal pleasure for the first time or looking to spice up a long-term relationship, our expertly categorized shop (For Her, For Him, Couples, Lubricants, and Lingerie) ensures you find exactly what you need with zero hassle.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-display text-xl text-f-dark mb-3">Our Commitment to Absolute Discretion</h3>
+                <p className="text-sm text-f-gray leading-relaxed mb-4">
+                  We understand the need for privacy. That is why our <strong>100% Discreet Packaging</strong> guarantee ensures that your order is shipped in a generic, plain brown cardboard box without any branding, logos, or product descriptions on the outside. Even the delivery executive will have no idea what is inside the package. 
+                </p>
+                <p className="text-sm text-f-gray leading-relaxed">
+                  Furthermore, our billing descriptor strictly uses <strong>"FT Commerce"</strong> on your bank and credit card statements, ensuring that your purchases remain entirely your secret.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="font-display text-xl text-f-dark mb-3">Health, Hygiene, and Safety First</h3>
+                <p className="text-sm text-f-gray leading-relaxed mb-4">
+                  Adult wellness is deeply connected to personal health. Unlike unbranded marketplaces, Funtroo guarantees that all our products are authentic, sealed, and ethically sourced from globally recognized manufacturers. 
+                </p>
+                <p className="text-sm text-f-gray leading-relaxed">
+                  From water-based organic lubricants to hypoallergenic silicone toys, every item in our catalog prioritizes your well-being. We also maintain strict non-return policies on opened intimacy items to guarantee 100% hygiene for every customer.
+                </p>
               </div>
             </div>
           </div>
