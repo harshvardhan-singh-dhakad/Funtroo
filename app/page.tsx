@@ -23,11 +23,11 @@ async function getFeatured() {
       where('isFeatured', '==', true),
       limit(8)
     ])
-    return products
+    if (products && products.length > 0) return products
   } catch (e) {
     console.error('Failed to fetch featured products', e)
-    return []
   }
+  return PRODUCTS_DATA.filter(p => p.isFeatured).slice(0, 8)
 }
 
 export default async function HomePage() {
