@@ -56,10 +56,20 @@ export default function ProductPage() {
 
         <div className="grid md:grid-cols-2 gap-10 mb-16">
           {/* Gallery */}
-          <div className="bg-f-soft border border-f-border rounded-2xl flex items-center justify-center min-h-80 text-7xl text-f-accent/40 relative">
-            🛍️
+          <div className="bg-white border border-f-border rounded-2xl flex items-center justify-center h-[380px] md:h-[450px] relative overflow-hidden shadow-sm">
+            {p.images && p.images.length > 0 && p.images[0] ? (
+              <img 
+                src={p.images[0]} 
+                alt={p.name} 
+                className="w-full h-full object-cover rounded-2xl"
+              />
+            ) : (
+              <div className="text-7xl text-f-accent/40">🛍️</div>
+            )}
             {discount > 0 && (
-              <span className="absolute top-4 left-4 bg-f-pink text-white text-xs font-bold px-3 py-1 rounded-full">{discount}% OFF</span>
+              <span className="absolute top-4 left-4 bg-f-pink text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-md">
+                {discount}% OFF
+              </span>
             )}
           </div>
 

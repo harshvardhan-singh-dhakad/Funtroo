@@ -1,23 +1,35 @@
-﻿// Run: node scripts/seed.js
-// Seeds 15 demo products and admin user into Firestore using Firebase Admin SDK
-
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env.local') });
-const admin = require('firebase-admin');
-const bcrypt = require('bcryptjs');
-
-// Initialize Admin SDK
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'funtroo-demo',
-  });
+﻿export interface ProductData {
+  id: string;
+  _id?: string;
+  name: string;
+  slug: string;
+  category: 'for-her' | 'for-him' | 'couples' | 'lubricants' | 'lingerie';
+  price: number;
+  originalPrice: number;
+  images: string[];
+  description: string;
+  features: string[];
+  material: string;
+  isWaterproof: boolean;
+  isRechargeable: boolean;
+  intensityModes: number;
+  stock: number;
+  isFeatured: boolean;
+  tags: string[];
+  rating: number;
+  reviewCount: number;
+  soldCount: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-const db = admin.firestore();
-
-const PRODUCTS_DATA = [
-  // FOR HER
+export const PRODUCTS_DATA: ProductData[] = [
+  // ==========================================
+  // CATEGORY 1: FOR HER (3 Products)
+  // ==========================================
   {
+    id: 'for-her-rose-vibe',
+    _id: 'for-her-rose-vibe',
     name: 'Rose Bloom Suction Vibe Pro',
     slug: 'for-her-rose-vibe',
     category: 'for-her',
@@ -44,6 +56,8 @@ const PRODUCTS_DATA = [
     soldCount: 412
   },
   {
+    id: 'for-her-wand-massager',
+    _id: 'for-her-wand-massager',
     name: 'Curved G-Spot Wand Massager',
     slug: 'for-her-wand-massager',
     category: 'for-her',
@@ -70,6 +84,8 @@ const PRODUCTS_DATA = [
     soldCount: 285
   },
   {
+    id: 'for-her-dual-stimulator',
+    _id: 'for-her-dual-stimulator',
     name: 'Velvet Touch Dual Stimulator',
     slug: 'for-her-dual-stimulator',
     category: 'for-her',
@@ -96,8 +112,12 @@ const PRODUCTS_DATA = [
     soldCount: 210
   },
 
-  // FOR HIM
+  // ==========================================
+  // CATEGORY 2: FOR HIM (3 Products)
+  // ==========================================
   {
+    id: 'for-him-stamina-ring',
+    _id: 'for-him-stamina-ring',
     name: 'Apex Pulsing Stamina Ring',
     slug: 'for-him-stamina-ring',
     category: 'for-him',
@@ -124,6 +144,8 @@ const PRODUCTS_DATA = [
     soldCount: 340
   },
   {
+    id: 'for-him-textured-stroker',
+    _id: 'for-him-textured-stroker',
     name: 'Pro-Textured Ergonomic Stroker',
     slug: 'for-him-textured-stroker',
     category: 'for-him',
@@ -150,6 +172,8 @@ const PRODUCTS_DATA = [
     soldCount: 260
   },
   {
+    id: 'for-him-prostate-massager',
+    _id: 'for-him-prostate-massager',
     name: 'Midnight Contour Prostate Massager',
     slug: 'for-him-prostate-massager',
     category: 'for-him',
@@ -176,8 +200,12 @@ const PRODUCTS_DATA = [
     soldCount: 175
   },
 
-  // COUPLES
+  // ==========================================
+  // CATEGORY 3: COUPLES (3 Products)
+  // ==========================================
   {
+    id: 'couples-wearable-vibe',
+    _id: 'couples-wearable-vibe',
     name: 'Remote Wearable Couples Vibrator',
     slug: 'couples-wearable-vibe',
     category: 'couples',
@@ -204,6 +232,8 @@ const PRODUCTS_DATA = [
     soldCount: 310
   },
   {
+    id: 'couples-intimacy-kit',
+    _id: 'couples-intimacy-kit',
     name: 'Luxury Passion Intimacy Gift Kit',
     slug: 'couples-intimacy-kit',
     category: 'couples',
@@ -230,6 +260,8 @@ const PRODUCTS_DATA = [
     soldCount: 195
   },
   {
+    id: 'couples-ring-set',
+    _id: 'couples-ring-set',
     name: 'Silicone Comfort Pleasure Ring Trio',
     slug: 'couples-ring-set',
     category: 'couples',
@@ -256,8 +288,12 @@ const PRODUCTS_DATA = [
     soldCount: 410
   },
 
-  // LUBRICANTS
+  // ==========================================
+  // CATEGORY 4: LUBRICANTS (3 Products)
+  // ==========================================
   {
+    id: 'lube-water-based',
+    _id: 'lube-water-based',
     name: 'Silk Glide Pure Water Lubricant (100ml)',
     slug: 'lube-water-based',
     category: 'lubricants',
@@ -284,6 +320,8 @@ const PRODUCTS_DATA = [
     soldCount: 680
   },
   {
+    id: 'lube-warming-oil',
+    _id: 'lube-warming-oil',
     name: 'Sensual Sensations Warming Massage Oil (150ml)',
     slug: 'lube-warming-oil',
     category: 'lubricants',
@@ -310,6 +348,8 @@ const PRODUCTS_DATA = [
     soldCount: 390
   },
   {
+    id: 'lube-organic-aloe',
+    _id: 'lube-organic-aloe',
     name: 'Organic Pure Aloe Vera Soothing Gel (120ml)',
     slug: 'lube-organic-aloe',
     category: 'lubricants',
@@ -336,8 +376,12 @@ const PRODUCTS_DATA = [
     soldCount: 280
   },
 
-  // LINGERIE
+  // ==========================================
+  // CATEGORY 5: LINGERIE (3 Products)
+  // ==========================================
   {
+    id: 'lingerie-black-lace-bodysuit',
+    _id: 'lingerie-black-lace-bodysuit',
     name: 'Midnight Floral Lace Bodysuit',
     slug: 'lingerie-black-lace-bodysuit',
     category: 'lingerie',
@@ -364,6 +408,8 @@ const PRODUCTS_DATA = [
     soldCount: 310
   },
   {
+    id: 'lingerie-satin-kimono-robe',
+    _id: 'lingerie-satin-kimono-robe',
     name: 'Royal Silk Satin Kimono Robe',
     slug: 'lingerie-satin-kimono-robe',
     category: 'lingerie',
@@ -390,6 +436,8 @@ const PRODUCTS_DATA = [
     soldCount: 240
   },
   {
+    id: 'lingerie-crimson-silk-chemise',
+    _id: 'lingerie-crimson-silk-chemise',
     name: 'Crimson Velvet Silk Chemise Set',
     slug: 'lingerie-crimson-silk-chemise',
     category: 'lingerie',
@@ -416,43 +464,3 @@ const PRODUCTS_DATA = [
     soldCount: 185
   }
 ];
-
-async function seed() {
-  console.log('🌱 Seeding 15 products into Firestore...');
-
-  const productsCol = db.collection('products');
-  for (const p of PRODUCTS_DATA) {
-    await productsCol.doc(p.slug).set({
-      ...p,
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    });
-    console.log(`✅ Seeded Product: ${p.name} [${p.category}]`);
-  }
-
-  // Seed Admin
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@funtroo.in';
-  const adminPass  = process.env.ADMIN_PASSWORD || 'Admin@123';
-  const customersCol = db.collection('customers');
-  
-  const asnap = await customersCol.where('email', '==', adminEmail).get();
-  if (asnap.empty) {
-    const hashed = await bcrypt.hash(adminPass, 10);
-    await customersCol.doc('admin-default').set({
-      name: 'Funtroo Admin',
-      email: adminEmail,
-      password: hashed,
-      role: 'admin',
-      card: { tier: 'platinum', number: 'FT-ADMIN-XXXX', totalSpend: 0, discountPct: 15, joinedAt: new Date().toISOString() },
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    });
-    console.log(`✅ Admin created: ${adminEmail}`);
-  }
-
-  console.log('🎉 Seed complete! 15 products updated successfully.');
-  process.exit(0);
-}
-
-seed().catch(e => { console.error(e); process.exit(1); });

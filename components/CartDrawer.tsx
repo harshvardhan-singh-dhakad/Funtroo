@@ -51,7 +51,11 @@ export default function CartDrawer() {
             </div>
           ) : items.map(item => (
             <div key={item.productId} className="flex gap-3 bg-[#2D2773] rounded-xl p-3">
-              <div className="w-16 h-16 bg-f-soft rounded-lg flex items-center justify-center shrink-0 text-2xl">🛍️</div>
+              {item.image ? (
+                <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg shrink-0" />
+              ) : (
+                <div className="w-16 h-16 bg-f-soft rounded-lg flex items-center justify-center shrink-0 text-2xl">🛍️</div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-f-light font-medium leading-snug truncate">{item.name}</p>
                 <p className="text-f-accent text-sm font-medium mt-1">₹{item.price.toLocaleString()}</p>

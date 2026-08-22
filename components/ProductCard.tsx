@@ -48,12 +48,20 @@ export default function ProductCard({ product }: Props) {
     <div className="bg-white border border-f-border rounded-2xl overflow-hidden group hover:border-f-purple hover:shadow-lg transition-all duration-300">
 
       {/* Image */}
-      <Link href={`/product/${product.slug}`} className="block relative h-48 bg-f-soft overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-5xl text-f-accent/40 group-hover:scale-110 transition-transform duration-500">
-          🛍️
-        </div>
+      <Link href={`/product/${product.slug}`} className="block relative h-48 bg-f-soft overflow-hidden group">
+        {product.images && product.images.length > 0 && product.images[0] ? (
+          <img 
+            src={product.images[0]} 
+            alt={product.name} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-5xl text-f-accent/40 group-hover:scale-110 transition-transform duration-500">
+            🛍️
+          </div>
+        )}
         {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
+        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
           {discount > 0 && (
             <span className="bg-f-pink text-white text-[9px] font-bold px-2 py-0.5 rounded-full">{discount}% OFF</span>
           )}

@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+﻿import { MetadataRoute } from 'next'
 import { getCollection, where } from '@/lib/firestore'
 import { IBlog } from '@/models/Blog'
 import { IProduct } from '@/models/Product'
@@ -13,10 +13,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ])
 
     const staticPages: MetadataRoute.Sitemap = [
-      { url: BASE,            lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
-      { url: `${BASE}/shop`,  lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
-      { url: `${BASE}/blog`,  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
-      { url: `${BASE}/auth/register`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+      { url: BASE,                             lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
+      { url: `${BASE}/shop`,                   lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
+      { url: `${BASE}/shop?category=for-her`,  lastModified: new Date(), changeFrequency: 'daily',   priority: 0.85 },
+      { url: `${BASE}/shop?category=for-him`,  lastModified: new Date(), changeFrequency: 'daily',   priority: 0.85 },
+      { url: `${BASE}/shop?category=couples`,  lastModified: new Date(), changeFrequency: 'daily',   priority: 0.85 },
+      { url: `${BASE}/shop?category=lubricants`,lastModified: new Date(), changeFrequency: 'daily',  priority: 0.85 },
+      { url: `${BASE}/shop?category=lingerie`, lastModified: new Date(), changeFrequency: 'daily',   priority: 0.85 },
+      { url: `${BASE}/about`,                  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+      { url: `${BASE}/blog`,                   lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
+      { url: `${BASE}/privacy-policy`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+      { url: `${BASE}/terms`,                  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+      { url: `${BASE}/terms-and-conditions`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+      { url: `${BASE}/auth/register`,          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+      { url: `${BASE}/llms.txt`,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
+      { url: `${BASE}/llms-full.txt`,          lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
     ]
 
     const blogPages: MetadataRoute.Sitemap = blogs.map(b => ({

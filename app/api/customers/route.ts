@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { getCollection, createDocument, getCollectionCount, where, orderBy, limit } from '@/lib/firestore'
+import { getCollection, createDocument, getDocument, deleteDocument, getCollectionCount, where, orderBy, limit } from '@/lib/firestore'
 import { generateCardNumber } from '@/lib/loyalty'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -9,24 +9,57 @@ import { QueryConstraint } from 'firebase/firestore'
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password, phone } = await req.json()
-    if (!name || !email || !password) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+    const { name, email, password, phone, otp } = await req.json()
+    if (!name || !email || !password) {
+      return NextResponse.json({ error: 'Name, email, and password are required.' }, { status: 400 })
+    }
 
-    const normalizedEmail = email.toLowerCase()
+    if (password.length < 6) {
+      return NextResponse.json({ error: 'Password must be at least 6 characters.' }, { status: 400 })
+    }
+
+    const normalizedEmail = email.trim().toLowerCase()
     
-    // Check if customer exists
+    // Check if customer already exists
     const exists = await getCollection<ICustomer>('customers', [
       where('email', '==', normalizedEmail),
       limit(1)
     ])
     
-    if (exists.length > 0) return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
+    if (exists.length > 0) {
+      return NextResponse.json({ error: 'Email is already registered. Please sign in.' }, { status: 400 })
+    }
+
+    // Verify OTP
+    const docId = `otp_${normalizedEmail.replace(/[^a-zA-Z0-9]/g, '_')}`
+    const otpRecord = await getDocument<{
+      email: string
+      otp: string
+      expiresAt: string
+      verified: boolean
+    }>('otps', docId)
+
+    if (!otpRecord) {
+      return NextResponse.json({ error: 'Please request and verify the email OTP first.' }, { status: 400 })
+    }
+
+    const isDirectMatch = otp && otpRecord.otp === otp.toString().trim()
+    const isAlreadyVerified = otpRecord.verified === true
+    const isExpired = new Date(otpRecord.expiresAt).getTime() < Date.now()
+
+    if (isExpired) {
+      return NextResponse.json({ error: 'Verification OTP has expired. Please request a new code.' }, { status: 400 })
+    }
+
+    if (!isDirectMatch && !isAlreadyVerified) {
+      return NextResponse.json({ error: 'Invalid or unverified OTP.' }, { status: 400 })
+    }
 
     const hashed = await bcrypt.hash(password, 10)
     const customerData: any = {
-      name,
+      name: name.trim(),
       email: normalizedEmail,
-      phone: phone || '',
+      phone: phone?.trim() || '',
       password: hashed,
       role: 'customer',
       addresses: [],
@@ -45,9 +78,17 @@ export async function POST(req: NextRequest) {
 
     const customerId = await createDocument('customers', customerData)
 
+    // Clean up OTP record
+    try {
+      await deleteDocument('otps', docId)
+    } catch (e) {
+      console.warn('Failed to delete used OTP record:', e)
+    }
+
     return NextResponse.json({ success: true, id: customerId })
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 })
+    console.error('Customer registration error:', e)
+    return NextResponse.json({ error: e.message || 'Registration failed' }, { status: 500 })
   }
 }
 
