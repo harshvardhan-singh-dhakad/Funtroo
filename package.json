@@ -10,6 +10,7 @@
     "seed:blogs": "node scripts/seed-blogs.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",

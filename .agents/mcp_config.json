@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "firebase": {
+      "command": "node",
+      "args": [
+        "scripts/firebase-mcp-server.js"
+      ],
+      "env": {
+        "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "funtrooo",
+        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "funtrooo.firebasestorage.app"
+      }
+    }
+  }
+}
