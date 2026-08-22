@@ -108,3 +108,217 @@ Error: Failed to collect page data for /api/auth/otp/send
 [debug] [2026-08-22T16:25:38.885Z] Error: ENOENT: no such file or directory, open 'D:\Local projects\Funtroo\.next\export-marker.json'
 [error] 
 [error] Error: An unexpected error has occurred.
+[debug] [2026-08-22T16:30:31.770Z] ----------------------------------------------------------------------
+[debug] [2026-08-22T16:30:31.775Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js deploy --project funtrooo
+[debug] [2026-08-22T16:30:31.776Z] CLI Version:   15.28.1
+[debug] [2026-08-22T16:30:31.776Z] Platform:      win32
+[debug] [2026-08-22T16:30:31.776Z] Node Version:  v24.15.0
+[debug] [2026-08-22T16:30:31.777Z] Detected Agent: antigravity
+[debug] [2026-08-22T16:30:31.777Z] Time:          Sat Aug 22 2026 22:00:31 GMT+0530 (India Standard Time)
+[debug] [2026-08-22T16:30:31.777Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-08-22T16:30:34.031Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-22T16:30:34.031Z] > authorizing via signed-in user (deepakdhakad5421@gmail.com)
+[debug] [2026-08-22T16:30:34.032Z] [iam] checking project funtrooo for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2026-08-22T16:30:34.051Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:34.051Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:34.052Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions [none]
+[debug] [2026-08-22T16:30:34.053Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions  x-goog-user-project=funtrooo
+[debug] [2026-08-22T16:30:34.053Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-08-22T16:30:44.648Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions 200
+[debug] [2026-08-22T16:30:44.648Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-08-22T16:30:44.649Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:44.649Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:44.649Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo [none]
+[debug] [2026-08-22T16:30:50.847Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo 200
+[debug] [2026-08-22T16:30:50.848Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo {"projectId":"funtrooo","projectNumber":"567105046529","displayName":"funtroo","name":"projects/funtrooo","resources":{"hostingSite":"funtrooo"},"state":"ACTIVE","labels":{"firebase":"enabled","firebase/storage-default-bucket":"created"},"etag":"1_4f0d3de7-0798-4dd4-a01c-97f176089c1f"}
+[debug] [2026-08-22T16:30:54.968Z] defaultcredentials: writing to file C:\Users\Dell\AppData\Roaming\firebase\deepakdhakad5421_gmail_com_application_default_credentials.json
+[debug] [2026-08-22T16:30:55.006Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:55.006Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:55.007Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites pageToken=&pageSize=10
+[debug] [2026-08-22T16:30:58.903Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites 200
+[debug] [2026-08-22T16:30:58.903Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites {"sites":[{"name":"projects/funtrooo/sites/funtrooo","defaultUrl":"https://funtrooo.web.app","appId":"1:567105046529:web:4415be0780089782879800","type":"DEFAULT_SITE"}]}
+[debug] [2026-08-22T16:30:58.904Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:58.904Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:30:58.904Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config [none]
+[debug] [2026-08-22T16:31:01.305Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config 200
+[debug] [2026-08-22T16:31:01.305Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config {"projectId":"funtrooo","appId":"1:567105046529:web:4415be0780089782879800","storageBucket":"funtrooo.firebasestorage.app","apiKey":"AIzaSyCxaXgTcYCZxzLvE6UKy9f4MkrEdJlL44c","authDomain":"funtrooo.firebaseapp.com","messagingSenderId":"567105046529","measurementId":"G-4SYKKE1NLN","projectNumber":"567105046529","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-08-22T16:31:11.243Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:31:11.243Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:31:11.243Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo [none]
+[debug] [2026-08-22T16:31:15.366Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo 200
+[debug] [2026-08-22T16:31:15.367Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo {"name":"projects/funtrooo/sites/funtrooo","defaultUrl":"https://funtrooo.web.app","appId":"1:567105046529:web:4415be0780089782879800","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.3
+
+[info] 
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/@protobufjs/inquire/index.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@protobufjs/inquire/index.js
+./node_modules/protobufjs/src/util/minimal.js
+./node_modules/protobufjs/src/index-minimal.js
+./node_modules/protobufjs/src/index-light.js
+./node_modules/protobufjs/src/index.js
+./node_modules/protobufjs/index.js
+./node_modules/@grpc/proto-loader/build/src/index.js
+./node_modules/@firebase/firestore/dist/index.node.mjs
+./node_modules/firebase/firestore/dist/index.mjs
+./lib/firestore.ts
+./app/page.tsx
+
+
+[info]  ✓ Compiled successfully
+
+[info]    Linting and checking validity of types ...
+
+[info]    Collecting page data ...
+
+[info] Error: `key_id` or `oauthToken` is mandatory
+    at new e (D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:14:10313)
+    at 7847 (D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:1:1339)
+    at t (D:\Local projects\Funtroo\.next\server\webpack-runtime.js:1:143)
+    at t (D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:16:185673)
+    at D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:16:185706
+    at t.X (D:\Local projects\Funtroo\.next\server\webpack-runtime.js:1:1285)
+    at D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:16:185686
+    at Object.<anonymous> (D:\Local projects\Funtroo\.next\server\app\api\razorpay\route.js:16:185733)
+    at Module._compile (node:internal/modules/cjs/loader:1830:14)
+    at Object..js (node:internal/modules/cjs/loader:1961:10)
+
+[info] 
+
+[info] > Build error occurred
+
+[info] Error: Failed to collect page data for /api/razorpay
+    at D:\Local projects\Funtroo\node_modules\next\dist\build\utils.js:1268:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  type: 'Error'
+}
+
+[debug] [2026-08-22T16:31:55.250Z] Error: ENOENT: no such file or directory, open 'D:\Local projects\Funtroo\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-08-22T16:36:28.047Z] ----------------------------------------------------------------------
+[debug] [2026-08-22T16:36:28.052Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js deploy --project funtrooo
+[debug] [2026-08-22T16:36:28.052Z] CLI Version:   15.28.1
+[debug] [2026-08-22T16:36:28.053Z] Platform:      win32
+[debug] [2026-08-22T16:36:28.053Z] Node Version:  v24.15.0
+[debug] [2026-08-22T16:36:28.053Z] Detected Agent: antigravity
+[debug] [2026-08-22T16:36:28.053Z] Time:          Sat Aug 22 2026 22:06:28 GMT+0530 (India Standard Time)
+[debug] [2026-08-22T16:36:28.053Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-08-22T16:36:30.177Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-22T16:36:30.178Z] > authorizing via signed-in user (deepakdhakad5421@gmail.com)
+[debug] [2026-08-22T16:36:30.178Z] [iam] checking project funtrooo for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2026-08-22T16:36:30.198Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:30.198Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:30.199Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions [none]
+[debug] [2026-08-22T16:36:30.200Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions  x-goog-user-project=funtrooo
+[debug] [2026-08-22T16:36:30.200Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-08-22T16:36:32.022Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions 200
+[debug] [2026-08-22T16:36:32.023Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/funtrooo:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-08-22T16:36:32.024Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:32.024Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:32.024Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo [none]
+[debug] [2026-08-22T16:36:32.793Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo 200
+[debug] [2026-08-22T16:36:32.793Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/funtrooo {"projectId":"funtrooo","projectNumber":"567105046529","displayName":"funtroo","name":"projects/funtrooo","resources":{"hostingSite":"funtrooo"},"state":"ACTIVE","labels":{"firebase":"enabled","firebase/storage-default-bucket":"created"},"etag":"1_4f0d3de7-0798-4dd4-a01c-97f176089c1f"}
+[debug] [2026-08-22T16:36:36.937Z] defaultcredentials: writing to file C:\Users\Dell\AppData\Roaming\firebase\deepakdhakad5421_gmail_com_application_default_credentials.json
+[debug] [2026-08-22T16:36:36.941Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:36.941Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:36.942Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites pageToken=&pageSize=10
+[debug] [2026-08-22T16:36:41.924Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites 200
+[debug] [2026-08-22T16:36:41.924Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites {"sites":[{"name":"projects/funtrooo/sites/funtrooo","defaultUrl":"https://funtrooo.web.app","appId":"1:567105046529:web:4415be0780089782879800","type":"DEFAULT_SITE"}]}
+[debug] [2026-08-22T16:36:41.924Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:41.924Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:41.925Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config [none]
+[debug] [2026-08-22T16:36:45.156Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config 200
+[debug] [2026-08-22T16:36:45.157Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:567105046529:web:4415be0780089782879800/config {"projectId":"funtrooo","appId":"1:567105046529:web:4415be0780089782879800","storageBucket":"funtrooo.firebasestorage.app","apiKey":"AIzaSyCxaXgTcYCZxzLvE6UKy9f4MkrEdJlL44c","authDomain":"funtrooo.firebaseapp.com","messagingSenderId":"567105046529","measurementId":"G-4SYKKE1NLN","projectNumber":"567105046529","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-08-22T16:36:54.683Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:54.683Z] Checked if tokens are valid: true, expires at: 1787419104331
+[debug] [2026-08-22T16:36:54.683Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo [none]
+[debug] [2026-08-22T16:36:57.212Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo 200
+[debug] [2026-08-22T16:36:57.212Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/funtrooo/sites/funtrooo {"name":"projects/funtrooo/sites/funtrooo","defaultUrl":"https://funtrooo.web.app","appId":"1:567105046529:web:4415be0780089782879800","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.3
+
+[info] 
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/@protobufjs/inquire/index.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@protobufjs/inquire/index.js
+./node_modules/protobufjs/src/util/minimal.js
+./node_modules/protobufjs/src/index-minimal.js
+./node_modules/protobufjs/src/index-light.js
+./node_modules/protobufjs/src/index.js
+./node_modules/protobufjs/index.js
+./node_modules/@grpc/proto-loader/build/src/index.js
+./node_modules/@firebase/firestore/dist/index.node.mjs
+./node_modules/firebase/firestore/dist/index.mjs
+./lib/firestore.ts
+./app/page.tsx
+
+
+[info]  ✓ Compiled successfully
+
+[info]    Linting and checking validity of types ...
+
+[info]    Collecting page data ...
+
+[info] Error: [ENV ERROR] Missing required environment variables: NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, NEXT_PUBLIC_FIREBASE_PROJECT_ID, NEXTAUTH_SECRET, NEXTAUTH_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID
+    at D:\Local projects\Funtroo\.next\server\chunks\3015.js:1:20084
+    at 41552 (D:\Local projects\Funtroo\.next\server\chunks\3015.js:1:20161)
+    at t (D:\Local projects\Funtroo\.next\server\webpack-runtime.js:1:143)
+    at 1028 (D:\Local projects\Funtroo\.next\server\app\_not-found\page.js:1:967)
+    at t (D:\Local projects\Funtroo\.next\server\webpack-runtime.js:1:143)
+    at r (D:\Local projects\Funtroo\.next\server\app\_not-found\page.js:1:3530)
+    at D:\Local projects\Funtroo\.next\server\app\_not-found\page.js:1:3567
+    at t.X (D:\Local projects\Funtroo\.next\server\webpack-runtime.js:1:1285)
+    at D:\Local projects\Funtroo\.next\server\app\_not-found\page.js:1:3543
+    at Object.<anonymous> (D:\Local projects\Funtroo\.next\server\app\_not-found\page.js:1:3594)
+
+[info] 
+
+[info] > Build error occurred
+
+[info] Error: Failed to collect page data for /_not-found
+    at D:\Local projects\Funtroo\node_modules\next\dist\build\utils.js:1268:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  type: 'Error'
+}
+
+[debug] [2026-08-22T16:37:24.569Z] Error: ENOENT: no such file or directory, open 'D:\Local projects\Funtroo\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
