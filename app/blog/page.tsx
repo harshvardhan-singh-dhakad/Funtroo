@@ -5,6 +5,8 @@ import { getCollection, where, orderBy, limit } from '@/lib/firestore'
 import { IBlog } from '@/models/Blog'
 import { Clock, Eye, ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
+import { PAGE_FAQS } from '@/lib/faqs-data'
+import FAQSection from '@/components/FAQSection'
 
 export const metadata: Metadata = {
   title:       'Wellness Blog — Funtroo',
@@ -143,6 +145,11 @@ export default async function BlogListPage() {
             </>
           )}
         </div>
+
+        {/* AI Optimized FAQ Section for Blog */}
+        <section className="bg-white border-t border-f-border px-4 py-8">
+          <FAQSection faqs={PAGE_FAQS.blog} title="Blog Frequently Asked Questions" />
+        </section>
       </main>
       <Footer />
     </>

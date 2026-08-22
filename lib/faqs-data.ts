@@ -145,5 +145,13 @@ export const PAGE_FAQS: Record<string, { q: string, a: string }[]> = {
     { q: 'How do you guarantee privacy?', a: 'Through three pillars: 1) Unmarked plain brown boxes. 2) Generic billing descriptors (FT Commerce). 3) Strict data protection policies where we never sell your data.' },
     { q: 'Who can shop at Funtroo?', a: 'Funtroo is strictly for adults aged 18 and above. We promote responsible, consensual, and safe wellness exploration.' },
     { q: 'How can I contact customer support?', a: 'You can reach our discreet customer support team via email at help@funtroo.in. We offer prompt, judgment-free assistance.' }
+  ],
+  blog: [
+    { q: 'What topics does the Funtroo blog cover?', a: 'Our blog covers a wide range of topics including sexual wellness, intimacy tips for couples, toy maintenance guides, and discussions to break adult wellness taboos in India.' },
+    { q: 'Are the articles medically reviewed?', a: 'While we strive to provide accurate wellness information, our articles are for educational purposes. We always recommend consulting a healthcare professional for specific medical advice.' },
+    { q: 'Can I suggest a topic for the blog?', a: 'Absolutely! We love hearing from our community. You can email us your topic suggestions at hello@funtroo.in.' },
+    { q: 'Do you offer product reviews on the blog?', a: 'Yes, we frequently post in-depth reviews, unboxing guides, and "how-to-use" tutorials for our most popular premium products.' },
+    { q: 'Is the blog content safe for work (NSFW)?', a: 'Our blog discusses adult themes and intimacy openly, so it may not be suitable for viewing in a strict professional workplace.' },
+    { q: 'How often do you post new articles?', a: 'We publish new educational and wellness articles every week to keep you informed on the latest in adult wellness.' }
   ]
 };
