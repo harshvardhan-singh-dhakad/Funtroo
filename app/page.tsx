@@ -6,6 +6,7 @@ import AgeGate from '@/components/AgeGate'
 import ProductCard from '@/components/ProductCard'
 import { getCollection, where, limit } from '@/lib/firestore'
 import { IProduct } from '@/models/Product'
+import { PRODUCTS_DATA } from '@/lib/products-data'
 
 const CATEGORIES = [
   { label: 'For Her',    slug: 'for-her',    emoji: '💜', count: '48+' },
