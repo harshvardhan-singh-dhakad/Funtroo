@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -28,7 +28,8 @@ export default function LoginPage() {
 
       if (res?.ok) {
         toast.success('Welcome back!')
-        router.push('/')
+        // We don't have role immediately in client without useSession, so redirect to /admin by default if they came for admin
+        router.push('/admin')
       } else {
         toast.error('Invalid email or password. Please check your details.')
       }
@@ -50,7 +51,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-f-grayBg border border-f-border rounded-2xl p-7 shadow-2xl">
-          {/* Social Login */}
+          {/* Social Login 
           <button 
             type="button"
             onClick={() => signIn('google', { callbackUrl: '/' })}
@@ -73,6 +74,7 @@ export default function LoginPage() {
               <span className="bg-f-grayBg px-2 text-f-muted">Or with email &amp; password</span>
             </div>
           </div>
+          */}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

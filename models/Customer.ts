@@ -6,7 +6,8 @@ export interface ICustomer {
   email: string
   password?: string // Should be excluded in most queries
   phone?: string
-  role: 'customer' | 'admin'
+  role: 'customer' | 'admin' | 'superadmin'
+  permissions?: ('blogs' | 'products' | 'orders' | 'staff')[]
   addresses: {
     id?: string
     label: string

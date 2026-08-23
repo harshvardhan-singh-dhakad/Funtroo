@@ -1,4 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { getCollection, createDocument, getDocument, deleteDocument, getCollectionCount, where, orderBy, limit } from '@/lib/firestore'
 import { generateCardNumber } from '@/lib/loyalty'
@@ -95,7 +96,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session || (session.user as any)?.role !== 'admin') {
+    if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -131,3 +132,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
+
+

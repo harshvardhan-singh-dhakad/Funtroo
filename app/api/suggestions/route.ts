@@ -1,4 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+import { NextRequest, NextResponse } from 'next/server'
 import { getCollection, where, orderBy, limit } from '@/lib/firestore'
 import { IProduct } from '@/models/Product'
 import { QueryConstraint } from 'firebase/firestore'
@@ -65,3 +66,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
+
+

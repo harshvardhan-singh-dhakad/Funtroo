@@ -1,20 +1,15 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import AdminSidebar from '@/components/AdminSidebar'
+import AdminWrapper from '@/components/AdminWrapper'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
 
   // Double protection: redirect if not admin
-  if (!session || (session.user as any)?.role !== 'admin') {
+  if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
     redirect('/?error=unauthorized')
   }
 
-  return (
-    <div className="min-h-screen flex bg-f-soft">
-      <AdminSidebar />
-      <main className="flex-1 overflow-auto">{children}</main>
-    </div>
-  )
+  return <AdminWrapper>{children}</AdminWrapper>
 }

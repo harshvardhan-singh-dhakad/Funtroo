@@ -24,21 +24,37 @@ export const metadata: Metadata = {
 
 async function getBlogs() {
   try {
-    // Note: Auto-publish logic should ideally be a cron job, 
-    // but for now we just fetch what's already published.
-    const blogs = await getCollection<IBlog>('blogs', [
-      where('status', '==', 'published'),
-      orderBy('publishedAt', 'desc'),
-      limit(20)
-    ])
+    const res = await fetch('https://firestore.googleapis.com/v1/projects/funtrooo/databases/(default)/documents/blogs', { next: { revalidate: 60 } })
+    const data = await res.json()
+    if (!data.documents) return []
+    
+    const blogs = data.documents.map((doc: any) => {
+      const f = doc.fields
+      return {
+        id: doc.name.split('/').pop(),
+        title: f.title?.stringValue || '',
+        slug: f.slug?.stringValue || '',
+        excerpt: f.excerpt?.stringValue || '',
+        category: f.category?.stringValue || '',
+        status: f.status?.stringValue || 'draft',
+        featuredImage: f.featuredImage?.stringValue || f.coverImage?.stringValue || '',
+        readTime: parseInt(f.readTime?.integerValue || '3'),
+        views: parseInt(f.views?.integerValue || '0'),
+        publishedAt: f.publishedAt?.stringValue || f.createdAt?.stringValue || '',
+        author: f.author?.stringValue || 'Funtroo Team'
+      }
+    })
+    
     return blogs
+      .filter((b: any) => b.status === 'published')
+      .sort((a: any, b: any) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(0, 20)
   } catch (e) {
-    console.error('Failed to fetch blogs', e)
     return []
   }
 }
 
-async function getCategories(blogs: IBlog[]) {
+async function getCategories(blogs: any[]) {
   const cats = Array.from(new Set(blogs.map(b => b.category))).filter(Boolean) as string[]
   return cats
 }

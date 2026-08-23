@@ -4,9 +4,11 @@ import {
   Plus, Pencil, Trash2, Eye, Search, X, Clock,
   Globe, FileText, Calendar, Tag, ChevronDown,
   BarChart2, Save, Send, EyeOff, AlignLeft,
-  CheckCircle, AlertCircle, RefreshCw
+  CheckCircle, AlertCircle, RefreshCw, Upload, Image as ImageIcon
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { uploadImage } from '@/lib/uploadImage'
+import { getCollection, createDocument, updateDocument, deleteDocument, orderBy } from '@/lib/firestore'
 
 const STATUS_META: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
   draft:     { label: 'Draft',     color: 'bg-gray-100 text-gray-700',    icon: <FileText size={10} /> },
@@ -17,7 +19,7 @@ const STATUS_META: Record<string, { label: string; color: string; icon: React.Re
 const CATS = ['General', 'Wellness', 'Intimacy Tips', 'Product Guides', 'Relationships', 'Self-Care', 'Education', 'News']
 
 const EMPTY_FORM = {
-  title: '', slug: '', excerpt: '', content: '', featuredImage: '',
+  title: '', slug: '', excerpt: '', content: '', htmlContent: '', cssContent: '', jsContent: '', featuredImage: '',
   category: 'General', tags: '', author: 'Funtroo Team',
   status: 'draft' as 'draft' | 'published' | 'scheduled',
   scheduledAt: '',
@@ -25,6 +27,7 @@ const EMPTY_FORM = {
 }
 
 type Tab = 'content' | 'seo' | 'settings'
+type CodeTab = 'html' | 'css' | 'js'
 
 export default function AdminBlogs() {
   const [blogs,   setBlogs]   = useState<any[]>([])
@@ -37,20 +40,33 @@ export default function AdminBlogs() {
   const [isNew,   setIsNew]   = useState(false)
   const [form,    setForm]    = useState<any>(EMPTY_FORM)
   const [tab,     setTab]     = useState<Tab>('content')
+  const [codeTab, setCodeTab] = useState<CodeTab>('html')
   const [saving,  setSaving]  = useState(false)
   const [preview, setPreview] = useState(false)
+  const [uploadingFeat, setUploadingFeat] = useState(false)
+  const [uploadingInline, setUploadingInline] = useState(false)
   const titleRef = useRef<HTMLInputElement>(null)
 
-  const load = () => {
+  const load = async () => {
     setLoading(true)
-    const p = new URLSearchParams({ page: String(page), limit: '15', admin: 'true' })
-    if (q)      p.set('q', q)
-    if (filter) p.set('status', filter)
-    fetch(`/api/blogs?${p}`).then(r => r.json()).then(d => {
-      setBlogs(d.blogs || [])
-      setTotal(d.total || 0)
-      setLoading(false)
-    })
+    try {
+      const allBlogs = await getCollection('blogs', [orderBy('createdAt', 'desc')])
+      let filtered = allBlogs
+      
+      if (filter) {
+        filtered = filtered.filter((b: any) => b.status === filter)
+      }
+      if (q) {
+        const queryLower = q.toLowerCase()
+        filtered = filtered.filter((b: any) => b.title?.toLowerCase().includes(queryLower) || b.slug?.toLowerCase().includes(queryLower))
+      }
+      
+      setTotal(filtered.length)
+      setBlogs(filtered.slice((page - 1) * 15, page * 15))
+    } catch(e) {
+      toast.error('Error loading blogs')
+    }
+    setLoading(false)
   }
 
   useEffect(() => { load() }, [page, q, filter])
@@ -73,11 +89,32 @@ export default function AdminBlogs() {
     }))
   }
 
+  const extractCode = (content: string) => {
+    let css = ''
+    let js = ''
+    let html = content || ''
+
+    const cssMatch = html.match(/<style>([\s\S]*?)<\/style>/)
+    if (cssMatch) {
+      css = cssMatch[1].trim()
+      html = html.replace(cssMatch[0], '')
+    }
+
+    const jsMatch = html.match(/<script>([\s\S]*?)<\/script>/)
+    if (jsMatch) {
+      js = jsMatch[1].trim()
+      html = html.replace(jsMatch[0], '')
+    }
+
+    return { htmlContent: html.trim(), cssContent: css, jsContent: js }
+  }
+
   const openCreate = () => {
     setIsNew(true)
     setEditing({})
     setForm(EMPTY_FORM)
     setTab('content')
+    setCodeTab('html')
     setPreview(false)
     setTimeout(() => titleRef.current?.focus(), 100)
   }
@@ -85,11 +122,15 @@ export default function AdminBlogs() {
   const openEdit = (blog: any) => {
     setIsNew(false)
     setEditing(blog)
+    const extracted = extractCode(blog.content || '')
     setForm({
       title:        blog.title || '',
       slug:         blog.slug  || '',
       excerpt:      blog.excerpt || '',
       content:      blog.content || '',
+      htmlContent:  extracted.htmlContent,
+      cssContent:   extracted.cssContent,
+      jsContent:    extracted.jsContent,
       featuredImage:blog.featuredImage || '',
       category:     blog.category || 'General',
       tags:         (blog.tags || []).join(', '),
@@ -107,6 +148,7 @@ export default function AdminBlogs() {
       },
     })
     setTab('content')
+    setCodeTab('html')
     setPreview(false)
   }
 
@@ -115,8 +157,13 @@ export default function AdminBlogs() {
     if (!form.slug.trim())  return toast.error('Slug is required')
     setSaving(true)
 
+    let mergedContent = form.htmlContent || ''
+    if (form.cssContent?.trim()) mergedContent = `<style>\n${form.cssContent}\n</style>\n\n` + mergedContent
+    if (form.jsContent?.trim()) mergedContent = mergedContent + `\n\n<script>\n${form.jsContent}\n</script>`
+
     const payload = {
       ...form,
+      content: mergedContent,
       tags: form.tags.split(',').map((t: string) => t.trim()).filter(Boolean),
       status: publishNow ? 'published' : form.status,
       seo: {
@@ -125,28 +172,31 @@ export default function AdminBlogs() {
       },
     }
 
-    const isEdit = editing?.id
-    const url    = isEdit ? `/api/blogs/${editing.id}` : '/api/blogs'
-    const method = isEdit ? 'PUT' : 'POST'
-
-    const res  = await fetch(url, { method, body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } })
-    const data = await res.json()
-    setSaving(false)
-
-    if (data.blog || data.error === undefined) {
-      toast.success(publishNow ? 'Blog published!' : isEdit ? 'Blog updated!' : 'Blog saved!')
+    try {
+      if (editing?.id) {
+        await updateDocument('blogs', editing.id, { ...payload, updatedAt: new Date().toISOString() })
+        toast.success(publishNow ? 'Blog published!' : 'Blog updated!')
+      } else {
+        await createDocument('blogs', { ...payload, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), views: 0 })
+        toast.success(publishNow ? 'Blog published!' : 'Blog saved!')
+      }
       setEditing(null)
       load()
-    } else {
-      toast.error(data.error || 'Save failed')
+    } catch (e) {
+      toast.error('Save failed')
     }
+    setSaving(false)
   }
 
   const deleteBlog = async (id: string) => {
     if (!confirm('Delete this blog permanently?')) return
-    await fetch(`/api/blogs/${id}`, { method: 'DELETE' })
-    toast.success('Blog deleted')
-    load()
+    try {
+      await deleteDocument('blogs', id)
+      toast.success('Blog deleted')
+      load()
+    } catch (e) {
+      toast.error('Delete failed')
+    }
   }
 
   const charCount = (str: string, max: number) => (
@@ -229,7 +279,26 @@ export default function AdminBlogs() {
                     className="w-full border border-f-border rounded-xl px-3 py-2 text-sm outline-none focus:border-f-purple text-f-dark bg-white resize-none" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-f-muted font-medium mb-1 block">Featured Image URL</label>
+                  <label className="text-[11px] text-f-muted font-medium mb-1 block">Featured Image</label>
+                  <div className="flex gap-2 mb-2">
+                    <input type="file" id="feat-img" className="hidden" accept="image/*" onChange={async e => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      setUploadingFeat(true)
+                      try {
+                        const url = await uploadImage(file, 'blogs')
+                        setForm((f: any) => ({ ...f, featuredImage: url }))
+                        toast.success('Image uploaded!')
+                      } catch (err) {
+                        toast.error('Upload failed')
+                      }
+                      setUploadingFeat(false)
+                    }} />
+                    <label htmlFor="feat-img" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-f-border rounded-lg text-xs cursor-pointer hover:bg-f-soft transition">
+                      <Upload size={14} className="text-f-purple" />
+                      {uploadingFeat ? 'Uploading...' : 'Upload Image'}
+                    </label>
+                  </div>
                   <input value={form.featuredImage} onChange={e => setForm((f: any) => ({ ...f, featuredImage: e.target.value }))}
                     placeholder="https://..."
                     className="w-full border border-f-border rounded-xl px-3 py-2 text-xs outline-none focus:border-f-purple text-f-dark bg-white" />
@@ -403,65 +472,74 @@ export default function AdminBlogs() {
               /* ── HTML EDITOR ── */
               <div className="flex-1 flex flex-col overflow-hidden">
                 <div className="bg-f-soft border-b border-f-border px-4 py-2 flex items-center gap-2 shrink-0">
-                  <AlignLeft size={13} className="text-f-muted" />
-                  <span className="text-xs text-f-muted">HTML Content Editor</span>
+                  <div className="flex bg-white border border-f-border rounded-lg p-0.5">
+                    {(['html', 'css', 'js'] as CodeTab[]).map(t => (
+                      <button key={t} onClick={() => setCodeTab(t)}
+                        className={`px-3 py-1 text-[11px] font-mono rounded transition ${codeTab === t ? 'bg-f-dark text-white' : 'text-f-gray hover:text-f-dark'}`}>
+                        {t.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+
                   <span className="ml-auto text-[10px] text-f-muted">
-                    {form.content.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length} words
+                    {codeTab === 'html' ? form.htmlContent.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length + ' words' : `${form[`${codeTab}Content`]?.length || 0} chars`}
                   </span>
                 </div>
 
-                {/* Quick HTML toolbar */}
-                <div className="bg-white border-b border-f-border px-4 py-2 flex flex-wrap gap-1.5 shrink-0">
-                  {[
-                    { label: 'H2', insert: '<h2>Heading</h2>' },
-                    { label: 'H3', insert: '<h3>Sub Heading</h3>' },
-                    { label: 'P',  insert: '<p>Paragraph text here.</p>' },
-                    { label: 'B',  insert: '<strong>bold text</strong>' },
-                    { label: 'I',  insert: '<em>italic text</em>' },
-                    { label: 'UL', insert: '<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>' },
-                    { label: 'OL', insert: '<ol>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ol>' },
-                    { label: '""', insert: '<blockquote>Your quote here.</blockquote>' },
-                    { label: 'IMG', insert: '<img src="https://..." alt="description" />' },
-                    { label: 'A',  insert: '<a href="https://funtroo.in/shop">Link text</a>' },
-                    { label: 'HR', insert: '<hr />' },
-                    { label: 'DIV', insert: '<div class="">\n\n</div>' },
-                  ].map(btn => (
-                    <button key={btn.label}
-                      onClick={() => {
-                        const ta  = document.getElementById('html-editor') as HTMLTextAreaElement
-                        const s   = ta.selectionStart
-                        const e   = ta.selectionEnd
-                        const val = form.content
-                        const newVal = val.slice(0, s) + '\n' + btn.insert + '\n' + val.slice(e)
-                        setForm((f: any) => ({ ...f, content: newVal }))
-                        setTimeout(() => { ta.focus(); ta.setSelectionRange(s + btn.insert.length + 2, s + btn.insert.length + 2) }, 0)
-                      }}
-                      className="px-2.5 py-1 bg-f-soft border border-f-border rounded-lg text-[11px] font-mono text-f-dark hover:bg-f-light hover:border-f-purple transition">
-                      {btn.label}
-                    </button>
-                  ))}
-                </div>
+                {/* Inline Image Uploader */}
+                {codeTab === 'html' && (
+                  <div className="bg-white border-b border-f-border px-4 py-2 flex flex-wrap gap-2 items-center shrink-0">
+                    <input type="file" id="inline-img" className="hidden" accept="image/*" onChange={async e => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      setUploadingInline(true)
+                      try {
+                        const url = await uploadImage(file, 'blogs/inline')
+                        const imgTag = `<img src="${url}" alt="image" />`
+                        const ta = document.getElementById('code-editor') as HTMLTextAreaElement
+                        const s = ta.selectionStart
+                        const val = form.htmlContent
+                        setForm((f: any) => ({ ...f, htmlContent: val.slice(0, s) + '\n' + imgTag + '\n' + val.slice(ta.selectionEnd) }))
+                        toast.success('Image inserted!')
+                      } catch (err) {
+                        toast.error('Upload failed')
+                      }
+                      setUploadingInline(false)
+                    }} />
+                    <label htmlFor="inline-img" className="flex items-center gap-1.5 px-2.5 py-1 bg-f-light text-f-purple rounded-lg text-[11px] cursor-pointer hover:bg-f-soft transition font-medium">
+                      <ImageIcon size={12} /> {uploadingInline ? 'Uploading...' : 'Insert Image'}
+                    </label>
+
+                    <div className="w-px h-4 bg-f-border mx-1"></div>
+
+                    {[
+                      { label: 'H2', insert: '<h2>Heading</h2>' },
+                      { label: 'H3', insert: '<h3>Sub Heading</h3>' },
+                      { label: 'P',  insert: '<p>Paragraph text here.</p>' },
+                      { label: 'B',  insert: '<strong>bold text</strong>' },
+                      { label: 'UL', insert: '<ul>\n  <li>Item 1</li>\n</ul>' },
+                      { label: 'A',  insert: '<a href="#">Link</a>' },
+                    ].map(btn => (
+                      <button key={btn.label}
+                        onClick={() => {
+                          const ta  = document.getElementById('code-editor') as HTMLTextAreaElement
+                          const s   = ta.selectionStart
+                          const val = form.htmlContent
+                          setForm((f: any) => ({ ...f, htmlContent: val.slice(0, s) + '\n' + btn.insert + '\n' + val.slice(ta.selectionEnd) }))
+                          setTimeout(() => { ta.focus(); ta.setSelectionRange(s + btn.insert.length + 2, s + btn.insert.length + 2) }, 0)
+                        }}
+                        className="px-2.5 py-1 bg-white border border-f-border rounded-lg text-[11px] font-mono text-f-dark hover:bg-f-light hover:border-f-purple transition">
+                        {btn.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <textarea
-                  id="html-editor"
-                  value={form.content}
-                  onChange={e => setForm((f: any) => ({ ...f, content: e.target.value }))}
-                  placeholder={`<!-- Write your full HTML blog here -->
-<h2>Introduction</h2>
-<p>Start your blog content here. Use the toolbar above to insert elements quickly.</p>
-
-<h2>Section 1</h2>
-<p>Your content...</p>
-
-<blockquote>An important quote or highlight.</blockquote>
-
-<h2>Section 2</h2>
-<ul>
-  <li>Point 1</li>
-  <li>Point 2</li>
-</ul>
-
-<!-- Add more sections as needed -->`}
+                  id="code-editor"
+                  value={form[`${codeTab}Content`]}
+                  onChange={e => setForm((f: any) => ({ ...f, [`${codeTab}Content`]: e.target.value }))}
+                  placeholder={codeTab === 'html' ? '<!-- Write HTML here -->' : codeTab === 'css' ? '/* Write CSS here */\n.my-class {\n  color: red;\n}' : '// Write JS here\nconsole.log("Hello");'}
                   className="flex-1 resize-none font-mono text-sm px-5 py-4 outline-none text-f-dark bg-white placeholder:text-f-border leading-relaxed"
                   spellCheck={false}
                   style={{ tabSize: 2 }}
@@ -472,7 +550,7 @@ export default function AdminBlogs() {
                       const s   = ta.selectionStart
                       const val = ta.value
                       const newVal = val.slice(0, s) + '  ' + val.slice(s)
-                      setForm((f: any) => ({ ...f, content: newVal }))
+                      setForm((f: any) => ({ ...f, [`${codeTab}Content`]: newVal }))
                       setTimeout(() => ta.setSelectionRange(s + 2, s + 2), 0)
                     }
                   }}

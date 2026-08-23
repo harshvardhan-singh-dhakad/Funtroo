@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Search, X, ChevronDown } from 'lucide-react'
+import { Search, X, ChevronDown, Download } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const STATUSES = ['pending','confirmed','processing','shipped','delivered','cancelled','returned']
@@ -51,6 +51,42 @@ export default function AdminOrders() {
     } else toast.error('Update failed')
   }
 
+  const exportToCSV = () => {
+    if (!orders || orders.length === 0) return toast.error('No orders to export')
+    
+    const headers = ['Order Number', 'Date', 'Customer Name', 'Email', 'Phone', 'Address', 'City', 'State', 'Pincode', 'Items', 'Total Amount', 'Status', 'Payment Method', 'Tracking Number']
+    const rows = orders.map(o => {
+      const itemsStr = o.items?.map((i: any) => `${i.name} (x${i.qty})`).join('; ') || ''
+      const addr = o.address || {}
+      return [
+        o.orderNumber,
+        new Date(o.createdAt).toLocaleDateString('en-IN'),
+        o.customerSnapshot?.name || '',
+        o.customerSnapshot?.email || '',
+        o.customerSnapshot?.phone || '',
+        `${addr.line1 || ''} ${addr.line2 || ''}`,
+        addr.city || '',
+        addr.state || '',
+        addr.pincode || '',
+        itemsStr,
+        o.total || 0,
+        o.status,
+        o.paymentMethod,
+        o.trackingNumber || ''
+      ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(',')
+    })
+    
+    const csvContent = [headers.join(','), ...rows].join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `funtroo_orders_${new Date().toISOString().split('T')[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   const Row = ({ label, value }: any) => (
     <div className="flex justify-between py-2 border-b border-f-soft last:border-0">
       <span className="text-xs text-f-muted">{label}</span>
@@ -65,6 +101,9 @@ export default function AdminOrders() {
           <h1 className="text-xl font-semibold text-f-dark">Orders</h1>
           <p className="text-xs text-f-gray mt-0.5">{total} total orders</p>
         </div>
+        <button onClick={exportToCSV} className="flex items-center gap-2 px-4 py-2.5 bg-f-purple text-white rounded-xl text-sm font-medium hover:bg-f-mid transition">
+          <Download size={16} /> Export CSV
+        </button>
       </div>
 
       {/* Filters */}

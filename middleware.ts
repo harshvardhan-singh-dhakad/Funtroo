@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token
-    const isAdmin = token?.role === 'admin'
+    const isAdmin = token?.role === 'admin' || token?.role === 'superadmin'
     const { pathname } = req.nextUrl
 
     // If it's an admin route but user is not admin, redirect to home

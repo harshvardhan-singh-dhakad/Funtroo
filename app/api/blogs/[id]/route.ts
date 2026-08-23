@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session || (session.user as any)?.role !== 'admin') {
+    if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     const body = await req.json()
@@ -68,7 +68,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session || (session.user as any)?.role !== 'admin') {
+    if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     await deleteDocument('blogs', params.id)

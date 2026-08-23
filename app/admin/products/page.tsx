@@ -1,10 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2, Search, ToggleLeft, ToggleRight, X } from 'lucide-react'
+import { Plus, Pencil, Trash2, Search, ToggleLeft, ToggleRight, X, Upload } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { uploadImage } from '@/lib/uploadImage'
+import { updateDocument, createDocument, deleteDocument } from '@/lib/firestore'
 
 const CATS = ['for-her','for-him','couples','lubricants','lingerie','accessories']
-const EMPTY = { name:'', slug:'', description:'', price:'', originalPrice:'', category:'for-her', stock:'', material:'', features:'', tags:'', isWaterproof:false, isRechargeable:false, intensityModes:'', isFeatured:false, isActive:true }
+const EMPTY = { name:'', slug:'', description:'', price:'', originalPrice:'', category:'for-her', stock:'', material:'', features:'', tags:'', isWaterproof:false, isRechargeable:false, intensityModes:'', isFeatured:false, isActive:true, images: [] }
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<any[]>([])
@@ -16,6 +18,11 @@ export default function AdminProducts() {
   const [editing, setEditing]   = useState<any>(null)
   const [form, setForm]         = useState<any>(EMPTY)
   const [saving, setSaving]     = useState(false)
+  const [uploadingImages, setUploadingImages] = useState(false)
+
+  const [bulkData, setBulkData] = useState<Record<string, { price: string, originalPrice: string }>>({})
+  const [isBulkEdit, setIsBulkEdit] = useState(false)
+  const [bulkSaving, setBulkSaving] = useState(false)
 
   const load = () => {
     setLoading(true)
@@ -26,10 +33,43 @@ export default function AdminProducts() {
 
   useEffect(() => { load() }, [page, q])
 
+  useEffect(() => {
+    if (isBulkEdit) {
+      const data: Record<string, { price: string, originalPrice: string }> = {}
+      products.forEach(p => {
+        data[p.id] = { price: String(p.price || ''), originalPrice: String(p.originalPrice || '') }
+      })
+      setBulkData(data)
+    }
+  }, [isBulkEdit, products])
+
+  const saveBulk = async () => {
+    setBulkSaving(true)
+    let errCount = 0
+    for (const p of products) {
+      const updated = bulkData[p.id]
+      if (!updated) continue
+      const pr = parseFloat(updated.price) || 0
+      const op = parseFloat(updated.originalPrice) || 0
+      if (pr === p.price && op === p.originalPrice) continue
+
+      try {
+        await updateDocument('products', p.id, { price: pr, originalPrice: op })
+      } catch (e) {
+        errCount++
+      }
+    }
+    setBulkSaving(false)
+    if (errCount > 0) toast.error(`${errCount} items failed to update.`)
+    else toast.success('Pricing updated successfully!')
+    setIsBulkEdit(false)
+    load()
+  }
+
   const openCreate = () => { setEditing(null); setForm(EMPTY); setModal(true) }
   const openEdit   = (p: any) => {
     setEditing(p)
-    setForm({ ...p, price: String(p.price), originalPrice: String(p.originalPrice), stock: String(p.stock), intensityModes: String(p.intensityModes || ''), features: (p.features || []).join('\n'), tags: (p.tags || []).join(', ') })
+    setForm({ ...p, price: String(p.price), originalPrice: String(p.originalPrice), stock: String(p.stock), intensityModes: String(p.intensityModes || ''), features: (p.features || []).join('\n'), tags: (p.tags || []).join(', '), images: p.images || [] })
     setModal(true)
   }
 
@@ -44,25 +84,40 @@ export default function AdminProducts() {
       features:       form.features.split('\n').filter(Boolean),
       tags:           form.tags.split(',').map((t: string) => t.trim()).filter(Boolean),
     }
-    const url    = editing ? `/api/products/${editing.id}` : '/api/products'
-    const method = editing ? 'PUT' : 'POST'
-    const res    = await fetch(url, { method, body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } })
-    const data   = await res.json()
+    try {
+      if (editing) {
+        await updateDocument('products', editing.id, payload)
+        toast.success('Product updated!')
+      } else {
+        await createDocument('products', payload)
+        toast.success('Product created!')
+      }
+      setModal(false)
+      load()
+    } catch (e) {
+      toast.error('Error saving')
+    }
     setSaving(false)
-    if (data.product || data.error === undefined) { toast.success(editing ? 'Product updated!' : 'Product created!'); setModal(false); load() }
-    else toast.error(data.error || 'Error saving')
   }
 
   const toggle = async (p: any) => {
-    await fetch(`/api/products/${p.id}`, { method: 'PUT', body: JSON.stringify({ isActive: !p.isActive }), headers: { 'Content-Type': 'application/json' } })
-    toast.success(p.isActive ? 'Product hidden' : 'Product visible')
-    load()
+    try {
+      await updateDocument('products', p.id, { isActive: !p.isActive })
+      toast.success(p.isActive ? 'Product hidden' : 'Product visible')
+      load()
+    } catch (e) {
+      toast.error('Error toggling status')
+    }
   }
 
   const del = async (id: string) => {
     if (!confirm('Hide this product?')) return
-    await fetch(`/api/products/${id}`, { method: 'DELETE' })
-    toast.success('Product hidden'); load()
+    try {
+      await updateDocument('products', id, { isActive: false })
+      toast.success('Product hidden'); load()
+    } catch (e) {
+      toast.error('Error hiding product')
+    }
   }
 
   const F = ({ label, k, type = 'text', span = 1, ...rest }: any) => (
@@ -89,12 +144,17 @@ export default function AdminProducts() {
   )
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="p-6 md:p-8 pb-24">
       <div className="flex items-center justify-between mb-6">
         <div><h1 className="text-xl font-semibold text-f-dark">Products</h1><p className="text-xs text-f-gray mt-0.5">{total} total</p></div>
-        <button onClick={openCreate} className="flex items-center gap-2 px-4 py-2.5 bg-f-purple text-white rounded-xl text-sm font-medium hover:bg-f-mid transition">
-          <Plus size={16} /> Add Product
-        </button>
+        <div className="flex gap-2">
+          <button onClick={() => setIsBulkEdit(!isBulkEdit)} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition ${isBulkEdit ? 'bg-f-dark text-white' : 'bg-f-light text-f-dark hover:bg-f-soft'}`}>
+            {isBulkEdit ? 'Cancel Quick Edit' : 'Quick Edit (Pricing)'}
+          </button>
+          <button onClick={openCreate} className="flex items-center gap-2 px-4 py-2.5 bg-f-purple text-white rounded-xl text-sm font-medium hover:bg-f-mid transition">
+            <Plus size={16} /> Add Product
+          </button>
+        </div>
       </div>
 
       {/* Search */}
@@ -116,26 +176,35 @@ export default function AdminProducts() {
             {loading ? [...Array(5)].map((_, i) => (
               <tr key={i}><td colSpan={6} className="px-4 py-4"><div className="h-4 bg-f-border/30 rounded animate-pulse" /></td></tr>
             )) : products.map(p => (
-              <tr key={p.id} className="border-b border-f-soft hover:bg-f-soft/50 transition">
+              <tr key={p.id} className={`border-b border-f-soft transition ${isBulkEdit ? 'bg-f-light/30' : 'hover:bg-f-soft/50'}`}>
                 <td className="px-4 py-3">
                   <p className="font-medium text-f-dark text-xs">{p.name}</p>
                   <p className="text-[11px] text-f-muted">{p.sku || p.slug}</p>
                 </td>
                 <td className="px-4 py-3"><span className="text-xs bg-f-light text-f-purple px-2 py-0.5 rounded-full capitalize">{p.category}</span></td>
                 <td className="px-4 py-3">
-                  <p className="text-xs font-medium text-f-dark">₹{p.price?.toLocaleString()}</p>
-                  <p className="text-[11px] text-f-muted line-through">₹{p.originalPrice?.toLocaleString()}</p>
+                  {isBulkEdit ? (
+                    <div className="flex flex-col gap-1 w-24">
+                      <input type="number" value={bulkData[p.id]?.price ?? ''} onChange={e => setBulkData(prev => ({...prev, [p.id]: {...prev[p.id], price: e.target.value}}))} className="border border-f-border rounded px-2 py-1 text-xs outline-none focus:border-f-purple bg-white" placeholder="Price" />
+                      <input type="number" value={bulkData[p.id]?.originalPrice ?? ''} onChange={e => setBulkData(prev => ({...prev, [p.id]: {...prev[p.id], originalPrice: e.target.value}}))} className="border border-f-border rounded px-2 py-1 text-[11px] text-f-muted outline-none focus:border-f-purple bg-white" placeholder="Orig. Price" />
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-xs font-medium text-f-dark">₹{p.price?.toLocaleString()}</p>
+                      <p className="text-[11px] text-f-muted line-through">₹{p.originalPrice?.toLocaleString()}</p>
+                    </>
+                  )}
                 </td>
                 <td className="px-4 py-3"><span className={`text-xs font-medium ${p.stock <= 5 ? 'text-red-500' : 'text-f-dark'}`}>{p.stock}</span></td>
                 <td className="px-4 py-3">
-                  <button onClick={() => toggle(p)}>
-                    {p.isActive ? <ToggleRight size={20} className="text-f-green" /> : <ToggleLeft size={20} className="text-f-muted" />}
+                  <button onClick={() => toggle(p)} disabled={isBulkEdit}>
+                    {p.isActive ? <ToggleRight size={20} className={isBulkEdit ? 'text-f-green/50' : 'text-f-green'} /> : <ToggleLeft size={20} className="text-f-muted" />}
                   </button>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
-                    <button onClick={() => openEdit(p)} className="p-1.5 hover:bg-f-light rounded-lg transition"><Pencil size={13} className="text-f-purple" /></button>
-                    <button onClick={() => del(p.id)} className="p-1.5 hover:bg-red-50 rounded-lg transition"><Trash2 size={13} className="text-red-400" /></button>
+                    <button onClick={() => openEdit(p)} disabled={isBulkEdit} className="p-1.5 hover:bg-f-light rounded-lg transition disabled:opacity-50"><Pencil size={13} className="text-f-purple" /></button>
+                    <button onClick={() => del(p.id)} disabled={isBulkEdit} className="p-1.5 hover:bg-red-50 rounded-lg transition disabled:opacity-50"><Trash2 size={13} className="text-red-400" /></button>
                   </div>
                 </td>
               </tr>
@@ -143,6 +212,17 @@ export default function AdminProducts() {
           </tbody>
         </table>
       </div>
+
+      {isBulkEdit && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-2xl border border-f-border rounded-full px-6 py-3 flex items-center gap-4 z-40">
+          <span className="text-sm font-medium text-f-dark">Quick Edit Mode</span>
+          <div className="w-px h-4 bg-f-border"></div>
+          <button onClick={() => setIsBulkEdit(false)} className="text-sm text-f-gray hover:text-f-dark transition">Cancel</button>
+          <button onClick={saveBulk} disabled={bulkSaving} className="px-4 py-1.5 bg-f-purple text-white rounded-full text-sm font-medium hover:bg-f-mid transition disabled:opacity-60">
+            {bulkSaving ? 'Saving...' : 'Save All Changes'}
+          </button>
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="flex justify-center gap-2 mt-4">
@@ -171,6 +251,43 @@ export default function AdminProducts() {
               <F label="Description"      k="description"   type="textarea" span={2} />
               <F label="Features (one per line)" k="features" type="textarea" span={2} />
               <F label="Tags (comma separated)"  k="tags" span={2} />
+              <div className="col-span-2">
+                <label className="block text-xs text-f-muted mb-1">Product Images</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {form.images?.map((url: string, i: number) => (
+                    <div key={i} className="relative group w-20 h-20 border border-f-border rounded-xl overflow-hidden">
+                      <img src={url} alt="product" className="w-full h-full object-cover" />
+                      <button onClick={() => setForm((p:any) => ({...p, images: p.images.filter((_:any, idx:number) => idx !== i)}))} className="absolute top-1 right-1 bg-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition shadow-sm text-red-500 hover:bg-red-50">
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  <label className="w-20 h-20 border border-dashed border-f-purple bg-f-light text-f-purple rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-f-soft transition">
+                    {uploadingImages ? <span className="text-[10px]">Uploading...</span> : (
+                      <>
+                        <Upload size={16} className="mb-1" />
+                        <span className="text-[10px] font-medium">Add Image</span>
+                      </>
+                    )}
+                    <input type="file" multiple className="hidden" accept="image/*" onChange={async e => {
+                      if (!e.target.files?.length) return
+                      setUploadingImages(true)
+                      try {
+                        const urls: string[] = []
+                        for (const file of Array.from(e.target.files)) {
+                          urls.push(await uploadImage(file, 'products'))
+                        }
+                        setForm((p:any) => ({...p, images: [...(p.images || []), ...urls]}))
+                        toast.success(`${urls.length} images uploaded!`)
+                      } catch (err) {
+                        toast.error('Failed to upload some images')
+                      }
+                      setUploadingImages(false)
+                    }} />
+                  </label>
+                </div>
+                <p className="text-[10px] text-f-muted">Upload multiple images of any size. The system automatically crops and adjusts them uniformly.</p>
+              </div>
               <F label="" k="isWaterproof"  type="checkbox" checkLabel="Waterproof" />
               <F label="" k="isRechargeable" type="checkbox" checkLabel="Rechargeable" />
               <F label="" k="isFeatured"   type="checkbox" checkLabel="Featured (Homepage)" />

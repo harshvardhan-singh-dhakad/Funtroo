@@ -1,4 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+import { NextRequest, NextResponse } from 'next/server'
 import { getCollection, getCollectionCount, where, orderBy, limit } from '@/lib/firestore'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -19,7 +20,7 @@ export async function GET(req: NextRequest) {
     
     if (adminMode) {
       const session = await getServerSession(authOptions)
-      if (!session || (session.user as any)?.role !== 'admin') {
+      if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
     }
@@ -108,3 +109,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
+
+

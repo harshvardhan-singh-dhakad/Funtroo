@@ -90,3 +90,77 @@ h3, h4, h5, h6 {
 .card-silver   { background: linear-gradient(135deg, #4A4A6A 0%, #8B8BA8 50%, #4A4A6A 100%); }
 .card-gold     { background: linear-gradient(135deg, #6B4A00 0%, #C4820A 50%, #6B4A00 100%); }
 .card-platinum { background: linear-gradient(135deg, #0E0B14 0%, #2D1B3D 50%, #0E0B14 100%); }
+
+/* Dark Mode Overrides for Admin Panel */
+.dark-admin {
+  background-color: #0E0B14 !important;
+  color: #F0EBF4 !important;
+}
+
+.dark-admin main .bg-white {
+  background-color: #1B1525 !important;
+}
+
+.dark-admin main .text-f-dark {
+  color: #F0EBF4 !important;
+}
+
+.dark-admin main .bg-f-soft {
+  background-color: #0E0B14 !important;
+}
+
+.dark-admin main table thead.bg-f-soft {
+  background-color: #2D2235 !important;
+}
+
+.dark-admin main .text-f-gray {
+  color: #9B7FA8 !important;
+}
+
+.dark-admin main .border-f-border,
+.dark-admin main .border-f-soft {
+  border-color: #2D2773 !important;
+}
+
+.dark-admin main input, 
+.dark-admin main textarea, 
+.dark-admin main select {
+  background-color: #0E0B14 !important;
+  color: #F0EBF4 !important;
+}
+
+.dark-admin main .shadow-2xl,
+.dark-admin main .shadow-sm {
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.5) !important;
+}
+
+.dark-admin main .bg-f-light {
+  background-color: #2D2773 !important;
+  color: #F0EBF4 !important;
+}
+
+.dark-admin main .text-f-purple {
+  color: #C27A8E !important;
+}
+
+.dark-admin main .text-f-muted {
+  color: #9B7FA8 !important;
+}
+
+.dark-admin main .text-f-dark {
+  color: #FFFFFF !important;
+}
+
+.dark-admin main button.bg-white,
+.dark-admin main div.bg-white {
+  background-color: #1B1525 !important;
+  border-color: #2D2773 !important;
+}
+
+.dark-admin main .hover\:bg-f-light:hover {
+  background-color: #2D2773 !important;
+}
+
+.dark-admin main .hover\:bg-f-soft:hover {
+  background-color: #1B1525 !important;
+}

@@ -1,7 +1,5 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { getCollection, updateDocument, increment, where, orderBy, limit } from '@/lib/firestore'
-import { IBlog } from '@/models/Blog'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, Eye, Calendar, Tag, ArrowLeft, ArrowRight } from 'lucide-react'
@@ -9,20 +7,77 @@ import type { Metadata } from 'next'
 
 interface Props { params: { slug: string } }
 
+async function getBlogBySlugREST(slug: string) {
+  try {
+    const res = await fetch('https://firestore.googleapis.com/v1/projects/funtrooo/databases/(default)/documents/blogs', { next: { revalidate: 60 } })
+    const data = await res.json()
+    if (!data.documents) return null
+    
+    const blogDoc = data.documents.find((doc: any) => doc.fields.slug?.stringValue === slug && doc.fields.status?.stringValue === 'published')
+    if (!blogDoc) return null
+    
+    const f = blogDoc.fields
+    return {
+      id: blogDoc.name.split('/').pop(),
+      title: f.title?.stringValue || '',
+      slug: f.slug?.stringValue || '',
+      excerpt: f.excerpt?.stringValue || '',
+      content: f.content?.stringValue || '',
+      category: f.category?.stringValue || '',
+      status: f.status?.stringValue || 'draft',
+      featuredImage: f.featuredImage?.stringValue || f.coverImage?.stringValue || '',
+      readTime: parseInt(f.readTime?.integerValue || '3'),
+      views: parseInt(f.views?.integerValue || '0'),
+      publishedAt: f.publishedAt?.stringValue || f.createdAt?.stringValue || '',
+      author: f.author?.stringValue || 'Funtroo Team',
+      tags: f.tags?.arrayValue?.values?.map((v: any) => v.stringValue) || [],
+      seo: {
+        metaTitle: f.seo?.mapValue?.fields?.metaTitle?.stringValue || '',
+        metaDesc: f.seo?.mapValue?.fields?.metaDesc?.stringValue || '',
+        focusKw: f.seo?.mapValue?.fields?.focusKw?.stringValue || '',
+        canonical: f.seo?.mapValue?.fields?.canonical?.stringValue || '',
+        ogImage: f.seo?.mapValue?.fields?.ogImage?.stringValue || '',
+        noIndex: f.seo?.mapValue?.fields?.noIndex?.booleanValue || false
+      }
+    }
+  } catch (e) {
+    return null
+  }
+}
+
+async function getRelatedREST(category: string, slug: string) {
+  try {
+    const res = await fetch('https://firestore.googleapis.com/v1/projects/funtrooo/databases/(default)/documents/blogs', { next: { revalidate: 60 } })
+    const data = await res.json()
+    if (!data.documents) return []
+    
+    const blogs = data.documents.map((doc: any) => {
+      const f = doc.fields
+      return {
+        id: doc.name.split('/').pop(),
+        title: f.title?.stringValue || '',
+        slug: f.slug?.stringValue || '',
+        excerpt: f.excerpt?.stringValue || '',
+        category: f.category?.stringValue || '',
+        status: f.status?.stringValue || 'draft'
+      }
+    })
+    
+    return blogs.filter((b: any) => b.status === 'published' && b.category === category && b.slug !== slug).slice(0, 3)
+  } catch (e) {
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const blogs = await getCollection<IBlog>('blogs', [
-    where('slug', '==', params.slug),
-    where('status', '==', 'published'),
-    limit(1)
-  ])
-  const blog = blogs[0]
+  const blog = await getBlogBySlugREST(params.slug)
   if (!blog) return { title: 'Blog Not Found' }
 
   const siteUrl = 'https://funtroo.in'
   return {
     title:       blog.seo?.metaTitle  || blog.title,
     description: blog.seo?.metaDesc   || blog.excerpt,
-    keywords:    [blog.seo?.focusKw, ...(blog.seo?.secondaryKws || []), ...(blog.tags || [])].filter(Boolean).join(', '),
+    keywords:    [blog.seo?.focusKw, ...(blog.tags || [])].filter(Boolean).join(', '),
     robots:      blog.seo?.noIndex ? 'noindex, nofollow' : 'index, follow',
     alternates:  { canonical: blog.seo?.canonical || `${siteUrl}/blog/${blog.slug}` },
     openGraph: {
@@ -44,28 +99,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-async function getRelated(category: string, slug: string) {
-  return getCollection<IBlog>('blogs', [
-    where('status', '==', 'published'),
-    where('category', '==', category),
-    orderBy('publishedAt', 'desc'),
-    limit(4)
-  ]).then(res => res.filter(b => b.slug !== slug).slice(0, 3))
-}
-
 export default async function BlogPostPage({ params }: Props) {
-  const blogs = await getCollection<IBlog>('blogs', [
-    where('slug', '==', params.slug),
-    where('status', '==', 'published'),
-    limit(1)
-  ])
-  const blog = blogs[0]
+  const blog = await getBlogBySlugREST(params.slug)
   if (!blog) notFound()
 
-  // Increment views (async, don't wait for it)
-  updateDocument('blogs', blog.id as string, { views: increment(1) }).catch(console.error)
+  // Fire-and-forget view increment using REST
+  fetch(`https://firestore.googleapis.com/v1/projects/funtrooo/databases/(default)/documents/blogs/${blog.id}?updateMask.fieldPaths=views`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fields: { views: { integerValue: String(blog.views + 1) } } })
+  }).catch(() => {})
 
-  const related = await getRelated(blog.category, blog.slug)
+  const related = await getRelatedREST(blog.category, blog.slug)
   const siteUrl = 'https://funtroo.in'
 
   const jsonLd = {
@@ -77,9 +122,8 @@ export default async function BlogPostPage({ params }: Props) {
     author:           { '@type': 'Person', name: blog.author },
     publisher:        { '@type': 'Organization', name: 'Funtroo', url: siteUrl },
     datePublished:    blog.publishedAt,
-    dateModified:     blog.updatedAt,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${blog.slug}` },
-    keywords:         [blog.seo?.focusKw, ...(blog.seo?.secondaryKws || [])].filter(Boolean).join(', '),
+    keywords:         [blog.seo?.focusKw].filter(Boolean).join(', '),
   }
 
   return (
@@ -200,7 +244,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="max-w-5xl mx-auto px-4">
               <h2 className="font-display text-2xl text-f-dark mb-6">Related Articles</h2>
               <div className="grid md:grid-cols-3 gap-5">
-                {related.map((r: IBlog) => (
+                {related.map((r: any) => (
                   <Link key={r.id} href={`/blog/${r.slug}`} className="bg-white border border-f-border rounded-2xl p-5 hover:border-f-purple hover:shadow-md transition group">
                     <p className="font-display text-lg text-f-dark group-hover:text-f-purple transition mb-2 line-clamp-2">{r.title}</p>
                     <p className="text-xs text-f-gray line-clamp-2 mb-3">{r.excerpt}</p>

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { getCollection, where, limit, createDocument } from '@/lib/firestore'
 import { ICustomer } from '@/models/Customer'
@@ -47,3 +48,5 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
+
+

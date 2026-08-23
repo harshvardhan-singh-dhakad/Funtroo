@@ -55,3 +55,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message || 'Failed to send OTP.' }, { status: 500 })
   }
 }
+

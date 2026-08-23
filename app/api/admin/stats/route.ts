@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -7,7 +8,7 @@ import { IOrder } from '@/models/Order'
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    if (!session || (session.user as any)?.role !== 'admin') {
+    if (!session || !['admin', 'superadmin'].includes((session.user as any)?.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -59,3 +60,5 @@ export async function GET() {
     return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
+
+
