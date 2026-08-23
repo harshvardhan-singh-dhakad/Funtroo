@@ -154,5 +154,5 @@ export const authOptions: AuthOptions = {
   },
   pages: { signIn: '/auth/login' },
   session: { strategy: 'jwt' },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'funtroo_super_secret_key_2026_firebase_hosting_fallback',
 }
