@@ -5,7 +5,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://funtroo.in'
 
   // Static routes
-  const routes = ['', '/about', '/shop', '/blog', '/privacy-policy', '/terms', '/terms-and-conditions'].map((route) => ({
+  const routes = [
+    '', '/about', '/shop', '/blog', '/privacy-policy', '/terms', '/terms-and-conditions',
+    '/sex-toys-for-women', '/sex-toys-for-men', '/couples-sex-toys', '/lubricants', '/lingerie'
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,

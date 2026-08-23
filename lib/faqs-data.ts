@@ -138,6 +138,46 @@ export const PAGE_FAQS: Record<string, { q: string, a: string }[]> = {
     { q: 'Do you offer couple intimacy toys?', a: 'Yes! We have an entire category dedicated to couples, featuring remote-controlled wearables, intimacy gift kits, and stamina rings designed for mutual pleasure.' },
     { q: 'How long does delivery take across India?', a: 'We offer fast pan-India shipping. Metro cities typically receive their discreet packages within 2-3 business days.' }
   ],
+  'for-her': [
+    { q: 'Are your sex toys for women body-safe?', a: 'Yes, all our vibrators and massagers for women are made from 100% body-safe, medical-grade silicone that is hypoallergenic and phthalate-free.' },
+    { q: 'Which vibrator is best for a beginner?', a: 'We recommend starting with a classic bullet vibrator or a small wand massager. They are unintimidating, easy to control, and offer incredible external stimulation.' },
+    { q: 'Is the packaging discreet when buying women\'s sex toys?', a: 'Absolutely. We use 100% plain brown boxes with zero branding. The delivery driver will not know what is inside.' },
+    { q: 'Can I use a vibrator in the shower?', a: 'Most of our premium silicone toys are IPX7 waterproof. Always check the specific product description, but generally, our high-end models are safe for bath or shower use.' },
+    { q: 'What lubricant should I use with silicone toys?', a: 'You must only use water-based lubricants with silicone sex toys. Silicone-based lubes will degrade the material of the toy.' },
+    { q: 'Do you offer Cash on Delivery for women\'s wellness products?', a: 'Yes, COD is available pan-India for all our products, ensuring a secure and private shopping experience.' }
+  ],
+  'for-him': [
+    { q: 'What are the best sex toys for men?', a: 'Popular choices include textured strokers/masturbators for solo play, and stamina rings or prostate massagers for enhanced endurance and deeper stimulation.' },
+    { q: 'How do stamina rings work?', a: 'Stamina rings gently restrict blood flow, helping to maintain firmer and longer-lasting erections while often providing vibrating stimulation for a partner.' },
+    { q: 'Are male masturbators easy to clean?', a: 'Yes. Most strokers have an open-ended design or removable sleeves that can be easily flushed with warm water and mild antibacterial soap.' },
+    { q: 'Do I need lubricant with male toys?', a: 'Yes, a generous amount of water-based lubricant is highly recommended for all strokers and massagers to prevent friction and enhance realism.' },
+    { q: 'Will my purchase be completely private?', a: 'Yes. We guarantee 100% discreet shipping in unmarked boxes and use a generic billing descriptor like "FT Commerce".' },
+    { q: 'Are prostate massagers safe for beginners?', a: 'Yes, our massagers feature smooth, anatomically curved designs and flared safety bases, making them perfectly safe and comfortable for beginners.' }
+  ],
+  'couples': [
+    { q: 'What are couples sex toys?', a: 'Couples toys are designed to be used together during intimacy. They include wearable vibrators, vibrating rings, remote-controlled toys, and intimacy games.' },
+    { q: 'Can wearable vibrators be used during intercourse?', a: 'Yes! Wearable vibrators like the C-shape models are specifically designed with a slim profile so they can be worn comfortably during penetration.' },
+    { q: 'How do remote-controlled sex toys work?', a: 'They connect via wireless frequencies or Bluetooth, allowing your partner to control the vibration patterns and intensity from across the room or even via a smartphone app.' },
+    { q: 'Are vibrating rings comfortable for both partners?', a: 'Yes, they are made from ultra-stretchable medical silicone to fit him comfortably, while the vibrating node rests against her for mutual pleasure.' },
+    { q: 'Is the couples intimacy kit a good gift?', a: 'Absolutely. Our kits come in luxurious, discreet packaging and include everything needed for a romantic weekend, making them perfect for anniversaries or honeymoons.' },
+    { q: 'How is privacy maintained for couples products?', a: 'We ship all orders in 100% plain brown boxes with no indication of adult products on the outside.' }
+  ],
+  'lubricants': [
+    { q: 'What is the difference between water-based and silicone lube?', a: 'Water-based lubes are safe for all toys and condoms. Silicone lubes last longer but should never be used with silicone toys as they degrade the material.' },
+    { q: 'Is it safe to use lube with condoms?', a: 'Water-based lubricants are 100% safe to use with all latex and polyurethane condoms. Avoid using oil-based lubes with latex.' },
+    { q: 'Are your lubricants safe for sensitive skin?', a: 'Yes, our organic water-based lubes and aloe gels are hypoallergenic, pH balanced, and free from parabens and harsh chemicals.' },
+    { q: 'Do water-based lubes leave a sticky residue?', a: 'No, high-quality water-based lubes provide a smooth glide and easily rinse away with just warm water, leaving no sticky feeling.' },
+    { q: 'Can I use massage oil as a personal lubricant?', a: 'Warming massage oils are great for external foreplay but should not be used as internal lubricants or with latex condoms.' },
+    { q: 'Will the package say "lubricant" on the outside?', a: 'No. All Funtroo orders are shipped in unmarked, plain brown boxes to guarantee your privacy.' }
+  ],
+  'lingerie': [
+    { q: 'What sizes are available in your lingerie collection?', a: 'Many of our pieces are designed as Free-Size (fitting S to XL) with adjustable straps and stretchable lace, while others come in specific sizing. Check the product details for exact fits.' },
+    { q: 'Is the lace material itchy or uncomfortable?', a: 'Not at all. We use ultra-soft, premium stretch eyelash lace designed to feel luxurious and smooth against bare skin.' },
+    { q: 'How should I wash sensual lingerie?', a: 'We highly recommend hand washing in cold water or using a discreet laundry mesh bag on a delicate machine cycle. Always hang to dry.' },
+    { q: 'Do babydoll sets come with matching panties?', a: 'Yes, most of our babydoll chemises and robes come with a matching G-string or panty to complete the sensual look.' },
+    { q: 'Can I return lingerie if it doesn\'t fit?', a: 'Due to strict hygiene standards, intimate apparel cannot be returned once worn or washed. Please refer to our sizing guidelines carefully before purchasing.' },
+    { q: 'Is the packaging discreet for lingerie orders?', a: 'Yes, just like our wellness products, all lingerie is shipped in 100% plain brown boxes for total privacy.' }
+  ],
   about: [
     { q: 'What is Funtroo’s core mission?', a: 'Our mission is to democratize adult sexual wellness in India by breaking taboos and providing premium, body-safe products with dignity, safety, and absolute discretion.' },
     { q: 'Where is Funtroo based?', a: 'Funtroo operates out of India, catering exclusively to the Indian market with fast domestic shipping and localized support.' },

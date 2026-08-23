@@ -18,12 +18,12 @@ export const metadata: Metadata = {
 }
 
 const CATEGORIES = [
-  { label: 'For Her',    slug: 'for-her',    emoji: '💜', count: '48+' },
-  { label: 'For Him',    slug: 'for-him',    emoji: '⚡', count: '22+' },
-  { label: 'Couples',    slug: 'couples',    emoji: '💑', count: '31+' },
-  { label: 'Lubricants', slug: 'lubricants', emoji: '💧', count: '16+' },
-  { label: 'Lingerie',   slug: 'lingerie',   emoji: '👙', count: '34+' },
-  { label: 'New In',     slug: '',           emoji: '✨', count: 'Fresh' },
+  { label: 'For Her',    href: '/sex-toys-for-women', emoji: '💜', count: '48+' },
+  { label: 'For Him',    href: '/sex-toys-for-men',   emoji: '⚡', count: '22+' },
+  { label: 'Couples',    href: '/couples-sex-toys',   emoji: '💑', count: '31+' },
+  { label: 'Lubricants', href: '/lubricants',         emoji: '💧', count: '16+' },
+  { label: 'Lingerie',   href: '/lingerie',           emoji: '👙', count: '34+' },
+  { label: 'New In',     href: '/shop',               emoji: '✨', count: 'Fresh' },
 ]
 
 async function getFeatured() {
@@ -147,7 +147,7 @@ export default async function HomePage() {
           <p className="text-f-gray text-sm mb-8">Explore our curated wellness collection</p>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
             {CATEGORIES.map(c => (
-              <Link key={c.slug} href={`/shop?category=${c.slug}`}
+              <Link key={c.label} href={c.href}
                 className="bg-white border border-f-border rounded-2xl p-4 text-center hover:border-f-purple hover:shadow-md transition group">
                 <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{c.emoji}</div>
                 <p className="text-xs font-medium text-f-dark">{c.label}</p>

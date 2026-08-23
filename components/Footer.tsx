@@ -70,19 +70,19 @@ export default function Footer() {
           <p className="text-xs font-bold text-f-light tracking-widest uppercase mb-4">Categories</p>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/shop?category=for-her" className="hover:text-f-light transition">💜 For Her</Link>
+              <Link href="/sex-toys-for-women" className="hover:text-f-light transition">💜 For Her</Link>
             </li>
             <li>
-              <Link href="/shop?category=for-him" className="hover:text-f-light transition">⚡ For Him</Link>
+              <Link href="/sex-toys-for-men" className="hover:text-f-light transition">⚡ For Him</Link>
             </li>
             <li>
-              <Link href="/shop?category=couples" className="hover:text-f-light transition">💑 Couples</Link>
+              <Link href="/couples-sex-toys" className="hover:text-f-light transition">💑 Couples</Link>
             </li>
             <li>
-              <Link href="/shop?category=lubricants" className="hover:text-f-light transition">💧 Lubricants</Link>
+              <Link href="/lubricants" className="hover:text-f-light transition">💧 Lubricants</Link>
             </li>
             <li>
-              <Link href="/shop?category=lingerie" className="hover:text-f-light transition">👙 Lingerie</Link>
+              <Link href="/lingerie" className="hover:text-f-light transition">👙 Lingerie</Link>
             </li>
           </ul>
         </div>

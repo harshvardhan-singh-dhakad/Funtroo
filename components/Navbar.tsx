@@ -22,12 +22,12 @@ import CartDrawer from './CartDrawer'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 const SHOP_SUBCATEGORIES = [
-  { label: 'View All Products', href: '/shop',                   emoji: '✨', desc: 'Browse all curated wellness items' },
-  { label: 'For Her',           href: '/shop?category=for-her',    emoji: '💜', desc: 'Vibrators, wellness & essentials' },
-  { label: 'For Him',           href: '/shop?category=for-him',    emoji: '⚡', desc: 'Rings, masturbators & stamina' },
-  { label: 'Couples',           href: '/shop?category=couples',    emoji: '💑', desc: 'Shared intimacy & games' },
-  { label: 'Lubricants',        href: '/shop?category=lubricants', emoji: '💧', desc: 'Water-based & organic formulas' },
-  { label: 'Lingerie',          href: '/shop?category=lingerie',   emoji: '👙', desc: 'Sensual apparel & robes' },
+  { label: 'View All Products', href: '/shop',               emoji: '✨', desc: 'Browse all curated wellness items' },
+  { label: 'For Her',    href: '/sex-toys-for-women', emoji: '💜', desc: 'Vibrators, wellness & essentials' },
+  { label: 'For Him',    href: '/sex-toys-for-men',   emoji: '⚡', desc: 'Rings, masturbators & stamina' },
+  { label: 'Couples',    href: '/couples-sex-toys',   emoji: '💑', desc: 'Shared intimacy & games' },
+  { label: 'Lubricants', href: '/lubricants',         emoji: '💧', desc: 'Water-based & organic formulas' },
+  { label: 'Lingerie',   href: '/lingerie',           emoji: '👙', desc: 'Sensual apparel & robes' },
 ]
 
 function NavbarContent() {
