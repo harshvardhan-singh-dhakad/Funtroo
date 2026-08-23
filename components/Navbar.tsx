@@ -70,8 +70,7 @@ function NavbarContent() {
         <div className="flex items-center justify-between px-3 md:px-12 h-14 md:h-16 relative">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <Image src="/icon0.svg" alt="Funtroo" width={32} height={32} className="w-7 h-7 md:w-8 md:h-8 object-contain group-hover:scale-110 transition-transform duration-300" />
+          <Link href="/" className="flex items-center shrink-0 group">
             <span className="font-display text-2xl md:text-3xl text-f-light tracking-[0.2em]">
               FUN<span className="text-f-accent">troo</span>
             </span>
