@@ -2,7 +2,6 @@ import { Zap, Shield, Package, Truck, Star, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import AgeGate from '@/components/AgeGate'
 import ProductCard from '@/components/ProductCard'
 import { getCollection, where, limit } from '@/lib/firestore'
 import { IProduct } from '@/models/Product'
@@ -45,7 +44,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <AgeGate />
       <Navbar />
       <main>
 

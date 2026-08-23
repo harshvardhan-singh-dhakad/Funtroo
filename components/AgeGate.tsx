@@ -5,12 +5,12 @@ export default function AgeGate() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const verified = localStorage.getItem('ft_age_verified')
+    const verified = sessionStorage.getItem('ft_age_verified')
     if (!verified) setShow(true)
   }, [])
 
   const confirm = () => {
-    localStorage.setItem('ft_age_verified', '1')
+    sessionStorage.setItem('ft_age_verified', '1')
     setShow(false)
   }
 

@@ -4,6 +4,7 @@ import './globals.css'
 import '@/lib/env'
 import { Toaster } from 'react-hot-toast'
 import Providers from '@/components/Providers'
+import AgeGate from '@/components/AgeGate'
 
 const cormorant = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '600'], style: ['normal', 'italic'], variable: '--font-display' })
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body' })
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <Providers>
+          <AgeGate />
           {children}
           <Toaster position="top-right" toastOptions={{
             duration: 3000,
